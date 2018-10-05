@@ -1,0 +1,284 @@
+<div class="c-header">
+        <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <h5>{{subTitle}}</h5>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="assoc-crud-container" >
+                 <div class="row">
+                     <div class="col-1"></div>
+                     <div class="col-10" *ngIf="operationType === CRUD.NEW">
+                        <form class="form assignment-form" #assignmentNewForm="ngForm" novalidate>
+                            <div class="form-group row">
+                                <label for="firstName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Assignment Start Date
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input appDate class="form-control app-date" type="text" value="" name="startDate" id="startDate" #startDate="ngModel" [(ngModel)]="assignment.startDate"
+                                        autocomplete="off" placeholder="MM/DD/YYYY" MaxLength="10" data-efield="Assignment Start Date" [inputValue]="assignment.startDate" [dOptions]="dateOptions" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Associae Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="associateName" id="associateName" #associateName="ngModel" [(ngModel)]="assignment.associateName"
+                                        autocomplete="off" placeholder="Associate Name" data-efield="Associate Name" MaxLength="25" required (ngModelChange)="onAssociateNameChange($event)">
+                                    <div class="error"></div>
+                                    <div id="associateList" class="autocomplete" *ngIf="associatesList && associatesList.length >0 ">
+                                        <ul class="autocomplete-items">
+                                            <li *ngFor="let associative of associatesList;let idx=index;">
+                                                <a href="javascript:void(0)" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Client Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="clientName" id="clientName" #clientName="ngModel" [(ngModel)]="assignment.clientName"
+                                    autocomplete="off" placeholder="Client Name" data-efield="Client Name" MaxLength="25" required (ngModelChange)="onClientNameChange($event)" >
+                                    <div class="error"></div>
+                                    <div id="cList" class="autocomplete" *ngIf="clientsList && clientsList.length >0 ">
+                                        <ul class="autocomplete-items">
+                                            <li *ngFor="let client of clientsList;let idx=index;">
+                                                <a href="javascript:void(0)" (click)="selectClient(client)">{{client.Name}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <label for="technology" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Technology
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="technology" id="technology" #technology="ngModel" [(ngModel)]="assignment.technology"
+                                        autocomplete="off" placeholder="Technology" data-efield="Technology" MaxLength="225" required>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Rate
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="assignment.rate"
+                                    autocomplete="off" placeholder="Rate" data-efield="Rate" MaxLength="25" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Unit
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="unit" name="unit" #unit="ngModel" [(ngModel)]="assignment.unit"
+                                        data-efield="Unit" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Hour" [value]="'Hour'">Hour</option>
+                                        <option value="Day" [value]="'Day'">Day</option>
+                                        <option value="Week" [value]="'Week'">Week</option>
+                                        <option value="Month" [value]="'Month'">Month</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Invoice Term
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="invoiceTerm" name="invoiceTerm" 
+                                    #invoiceTerm="ngModel" [(ngModel)]="assignment.invoiceTerm" 
+                                    data-efield="Invoice Term" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Weekly" [value]="'Weekly'">Weekly</option>
+                                        <option value="Monthly" [value]="'Monthly'">Monthly</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Payment Term
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="paymentTerm" name="paymentTerm" 
+                                    #paymentTerm="ngModel" [(ngModel)]="assignment.paymentTerm"
+                                        data-efield="Payment Term" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Net Week" [value]="'Net Week'">Net Week</option>
+                                        <option value="Net 15 Days" [value]="'Net 15 Days'">Net 15 Days</option>
+                                        <option value="Net 30" [value]="'Net 30'">Net 30</option>
+                                        <option value="Net 45" [value]="'Net 45'">Net 45</option>
+                                        <option value="Net 60" [value]="'Net 60'">Net 60</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="endCn" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    End Client Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="endClientName" id="endClientName" #endClientName="ngModel" [(ngModel)]="assignment.endClientName"
+                                    autocomplete="off" placeholder="End Client Name" data-efield="End Client Name" MaxLength="25">
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <input type="hidden"  name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="assignment.associateID" />
+                                    <input type="hidden"  name="clientID" id="clientID" #clientID="ngModel" [(ngModel)]="assignment.clientID" />
+                                    <input type="hidden"  name="endClientID" id="endClientID" #endClientID="ngModel" [(ngModel)]="assignment.endClientID"  />
+                                    <button type="button" (click)="assignmentNewFormSubmit(assignmentNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{assignmentNewForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                    <button type="button" class="btn btn-default rounded-0 float-right" (click)="assignmentCancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                     </div>
+                     <div class="col-10" *ngIf="operationType === CRUD.EDIT">
+                        <form class="form assignment-form" #assignmentEditForm="ngForm" novalidate>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        Start Date <span class="pl-2">:</span>
+                                </label>
+                                <label for="" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label">
+                                        {{assignment.startDate}}
+                                </label>
+                                <label for="associateName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        Associate Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                        {{assignment.associateName}}
+                                </label>
+                            </div>
+                            <div class="form-group row">
+                                <label for="" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Client Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <label for="" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label">
+                                        {{assignment.clientName}}
+                                </label>
+                                <label for="technology" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Technology
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="technology" id="technology" #technology="ngModel" [(ngModel)]="assignment.technology"
+                                        autocomplete="off" placeholder="Technology" data-efield="Technology" MaxLength="225" required>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Rate
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="assignment.rate"
+                                    autocomplete="off" placeholder="Rate" data-efield="Rate" MaxLength="25" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Unit
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="unit" name="unit" #unit="ngModel" [(ngModel)]="assignment.unit"
+                                        data-efield="Unit" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Hour" [value]="'Hour'">Hour</option>
+                                        <option value="Day" [value]="'Day'">Day</option>
+                                        <option value="Week" [value]="'Week'">Week</option>
+                                        <option value="Month" [value]="'Month'">Month</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Invoice Term
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="invoiceTerm" name="invoiceTerm" 
+                                    #invoiceTerm="ngModel" [(ngModel)]="assignment.invoiceTerm" 
+                                    data-efield="Invoice Term" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Weekly" [value]="'Weekly'">Weekly</option>
+                                        <option value="Monthly" [value]="'Monthly'">Monthly</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Payment Term
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="paymentTerm" name="paymentTerm" 
+                                    #paymentTerm="ngModel" [(ngModel)]="assignment.paymentTerm"
+                                        data-efield="Payment Term" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Net Week" [value]="'Net Week'">Net Week</option>
+                                        <option value="Net 15 Days" [value]="'Net 15 Days'">Net 15 Days</option>
+                                        <option value="Net 30" [value]="'Net 30'">Net 30</option>
+                                        <option value="Net 45" [value]="'Net 45'">Net 45</option>
+                                        <option value="Net 60" [value]="'Net 60'">Net 60</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="endCn" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    End Client Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="endClientName" id="endClientName" #endClientName="ngModel" [(ngModel)]="assignment.endClientName"
+                                    autocomplete="off" placeholder="End Client Name" data-efield="End Client Name" MaxLength="25">
+                                    <div class="error"></div>
+                                </div>
+                                <label for="firstName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    Assignment End Date
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input appDate class="form-control app-date" type="text" value="" name="endDate" id="endDate" #endDate="ngModel" [(ngModel)]="assignment.endDate"
+                                        autocomplete="off" placeholder="MM/DD/YYYY" MaxLength="10" data-efield="Assignment End Date">
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <input type="hidden"  name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="assignment.associateID" />
+                                    <input type="hidden"  name="clientID" id="clientID" #clientID="ngModel" [(ngModel)]="assignment.clientID" />
+                                    <input type="hidden"  name="endClientID" id="endClientID" #endClientID="ngModel" [(ngModel)]="assignment.endClientID"  />
+                                    <button type="button" (click)="assignmentEditFormSubmit(assignmentEditForm)" class="btn rounded-0 float-right mx-2" ngClass="{{assignmentEditForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                    <button type="button" class="btn btn-default rounded-0 float-right" (click)="assignmentCancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                     </div>
+                     <div class="col-10" *ngIf="operationType === CRUD.VIEW">
+
+                     </div>
+                     <div class="col-1"></div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>

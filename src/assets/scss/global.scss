@@ -1,0 +1,330 @@
+@import './custom-variables';
+.main-header{
+    .navbar{
+        padding: 0.2rem 0.5rem;
+    }
+}
+.logo{
+    width: 250px;
+    font-weight: 600;
+    margin: 0px 1px;
+    color: #FFF;
+    text-align:center;
+}
+
+.logo:hover{
+    background-color: #337ab7;
+    border-color:#337ab7;
+    color:#FFF;
+}
+
+.left{
+    width:250px;
+    min-height:100%;
+
+}
+
+.right{
+    min-height:100%;
+}
+
+.bg-sky-blue{
+    background-color: $bg_sky-blue;
+}
+
+.bg-sky-blue_1{
+    background-color: $bg_sky_blue_1;
+}
+
+.bg-blue-10{
+    background-color:$bg_blue_10;
+}
+
+.bg-sky-blue-11{
+    background-color:#051d4a;
+}
+
+.main{
+    position:relative;
+    min-height:100%;
+    top:0;
+    left:0;
+}
+
+.main-sidebar{
+    position: absolute;
+    background-color: #4b67a2;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.sidebar{
+    position: relative;
+    min-height:calc(100vh - 50px);
+    top:0;
+    left:0;
+}
+
+.user .nav-link{
+    width: 12rem;
+    img{
+        margin-right: 0.5rem;
+    }
+}
+
+.user .nav-link:focus, .user .nav-link:visited, .user .nav-link:hover{
+    background: rgba(0,0,0,0.1);
+    color: #f6f6f6;
+    border-color: #337ab7;
+}
+
+.user-menu .dropdown-menu{
+    padding: 2px 2px;
+    width: 350px;
+    .user-header{
+        min-height: 150px;
+        padding: 10px;
+        text-align: center;
+        background-color: $bg-sky-blue_1;
+
+        img{
+            z-index: 5;
+            height: 90px;
+            width: 90px;
+            border: 3px solid;
+            border-color: transparent;
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        div{
+            z-index: 5;
+            color: #fff;
+            color: rgba(255,255,255,0.8);
+            font-size: 17px;
+            margin-top: 10px;
+            >.small{
+                display:block;
+                font-size:12px;
+            }
+        }
+    }
+
+    .user-body{
+        padding: 15px;
+        border-bottom: 1px solid #f4f4f4;
+        border-top: 1px solid #dddddd;
+    }
+
+    .user-footer{
+        padding: 1px 10px;
+    }
+}
+
+.user-panel{
+    color:#FFF;
+    font-size:14px;
+    font-weight:600;
+    .info{
+        padding:0px 8px;
+        >p{
+            margin-top: 0.5rem;
+            margin-bottom: 0rem;
+        }
+        > a{
+            color:#FFF;
+            font-size: 11px;
+            text-decoration: none;
+        }
+    }
+}
+
+.main-nav{
+    min-height:100%;
+    li.nav-item{
+        color:#FFF;
+        border-bottom: 1px solid #F1F1F1;
+        a{
+            color:#FFF;
+        }
+        a.active{
+            background-color: #011279;
+        }
+    }
+
+    li.nav-item:hover{
+        background-color: #1e80e2;
+    }
+}
+
+.content-wrapper{
+    min-height: calc(100vh - 50px);
+    position: relative;
+}
+
+.c-header{
+    background-color: #ecf0f5;
+    padding:15px 15px;
+    margin:15px 15px;
+}
+
+.main-nav .nav-item.active{
+    background-color: #72bbd0;
+    box-shadow: 0 0px 2px 0px;
+    font-weight: 600;
+
+}
+
+.err.alert{
+    padding:0.5rem 1.25rem;
+    border-radius: 0px;
+    margin-bottom:0.5rem;
+}
+.app-alert-close-icon{
+    position: absolute;
+    right: 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.date .datepicker.datepicker-dropdown{
+    width:100%;
+    left:0;
+}
+
+.date .datepicker.datepicker-dropdown .table-condensed{
+    width:100%;
+}
+.btn:focus, .btn-info:focus,.btn-info:visited,.btn-info:active,.btn-info:hover{
+    box-shadow: none;
+}
+
+/*** Spinner CSS ****/@at-root
+
+.spinner-container{  
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    background-color:#495057;
+    opacity: .8;
+ }
+
+.ajax-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px; /* -1 * image width / 2 */
+    margin-top: -32px;  /* -1 * image height / 2 */
+    display: block;     
+}
+
+.form-control{
+    border-radius: 0px;
+}
+
+.required-field{
+    color:red;
+    font-weight: 600;
+    padding:0px 2px;
+}
+
+.error{
+    color:red;
+    font-size:12px;
+    line-height:13px;
+    padding:2px 2px;
+}
+
+.form-control:focus, .form-control:hover, .form-control:visited, .form-control:active{
+    box-shadow: none;
+    border-color:#b1b6bb;
+}
+
+.datepicker.datepicker-dropdown.dropdown-menu{ 
+    width : 100%;
+    .table-condensed{ 
+        width:100%;
+    }
+}
+
+.autocomplete{
+    position: relative;
+}
+.autocomplete-items{
+    position: absolute;
+    z-index: 100;
+    background-color: #FFF;
+    max-height: 250px;
+    overflow: auto;
+    border: 1px solid #DDD;
+    width: 100%;
+    top: -5px;
+    left: 0px;
+    padding: 5px 0rem;
+
+    ::-webkit-scrollbar {
+        width: 2px;
+        height: 2px;
+    }
+  
+}
+
+.autocomplete-items::-webkit-scrollbar{
+    width: 2px;
+    height: 2px;
+}
+
+
+
+.autocomplete-items li{ 
+    list-style: none;
+    width:100%;
+    padding: 5px 15px; 
+    border:1px solid #DDD;
+}
+
+.autocomplete-items> li >a{
+    color: #000;
+    text-decoration: none;
+    width:100%;
+}
+
+.autocomplete-items li:hover, .autocomplete-items li:focus { 
+    background-color:#4b67a2;
+    color: #FFF;
+    border: 1px solid #4b67a2;
+    width:100%; 
+}
+
+.autocomplete-items li a:hover, .autocomplete-items li:focus{ 
+    color:#FFF;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.margin-t-2{
+    margin-top: 2%;
+}
+
+.top-left-menu{ 
+    a.nav-link.dropdown-toggle{
+        color:#FFF;
+        :hover{
+            background-color: #1e80e2;
+            box-shadow: #1e80e2;
+        }
+    }
+}

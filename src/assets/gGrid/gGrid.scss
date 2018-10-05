@@ -1,0 +1,42 @@
+.gGrid-table{
+    tr{
+        height:30px;
+    }
+    tr > th{
+        padding:10px 5px;
+        margin:0px;
+        > div{
+            padding:0px .25rem;
+        } 
+    }
+    tbody >tr:active,tbody >tr:hover, tbody >tr:focus, tr:visited{
+        background-color: #55a6fd;
+        color: #FFF;
+        opacity: .9;
+        box-shadow:1px 1px 1px 1px #55a6fd;
+        td > div > a{
+            color: #FFF;
+        }
+    }
+    tbody >tr.selected{
+        background-color: #0758af;
+        color: #FFF;
+        opacity: .9;
+        box-shadow:1px 1px 1px 1px #0758af;
+    }
+    tr > td{
+        padding:.5rem 1rem;
+        margin:0px;
+    }
+    .filter-row{
+        td{
+            padding:2px 2px;
+            margin:0px;
+        }
+        .filter-s-input-c{
+            top: -32px;
+            right:10px;
+            cursor: pointer;
+        }
+    }
+}

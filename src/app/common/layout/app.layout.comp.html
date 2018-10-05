@@ -1,0 +1,139 @@
+<div class="w-100 h-100">
+  <header class="main-header">
+    <nav class='navbar navbar-expand bg-sky-blue_1 static-top'>
+      <a href="index.html" class="logo navbar-brand mr-1">Staff Matrix</a>
+      <button class='btn btn-link btn-sm text-white order-1 order-sm-0' id='sidebarToggle' href='#'>
+        <i class='fa fa-bars'></i>
+      </button>
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <i class="fa fa-bell fa-fw"></i>
+            <span class="badge badge-danger">9+</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right rounded-0" aria-labelledby="alertsDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle text-white" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <i class="fa fa-envelope fa-fw"></i>
+            <span class="badge badge-danger">7</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right rounded-0" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow user user-menu">
+          <a class="nav-link text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <!-- <i class="fa fa-user-circle fa-fw"></i> -->
+            <img src="{{BASE_URL+ '/assets/images/user2-160x160.jpg'}}" class="rounded-circle" alt="User" width="25px" height="25px" />
+            <span class="hidden-xs">{{user.FirstName +' '+user.MiddleName + ' '+user.LastName}}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right rounded-0" aria-labelledby="userDropdown">
+            <li class="dropdown-item user-header">
+                <img src="{{BASE_URL+ '/assets/images/user2-160x160.jpg'}}" class="rounded-circle" alt="User" width="25px" height="25px" />
+                <div>{{user.FirstName +' '+user.MiddleName + ' '+user.LastName}} - {{ROLE_TYPES[user.RoleName]}}
+                  <div class="small"> Member since Nov. 2012 </div>
+                </div>
+            </li>
+            <!--<li class="dropdown-item user-body">
+                <div class="row">
+                  <div class="col-md-4"><span>Followers</span></div>
+                  <div class="col-md-4"><span>Sales</span></div>
+                  <div class="col-md-4"><span>Friends</span></div>
+                </div>
+            </li>-->
+            <li class=" user-footer">
+              <div class="d-block mx-1 my-1">
+                  <div class="pull-left my-1">
+                      <button class="btn btn-default rounded-0">Profile</button>
+                    </div>
+                    <div class="pull-right my-1">
+                        <button class="btn btn-primary rounded-0" (click)="logout()" >Logout</button>
+                    </div>
+              </div>
+            </li>
+            <!-- <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Activity Log</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main class="main">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="main-sidebar">
+            <section class="sidebar">
+              <div class="card rounded-0 border-0 bg-sky-blue-11">
+                <div class="card-body user-panel">
+                  <div class="pull-left image">
+                      <img src="{{BASE_URL+ '/assets/images/user2-160x160.jpg'}}" class="rounded-circle" alt="User" width="40px" height="40px" />
+                  </div>
+                  <div class="pull-left info">
+                    <p>{{user.FirstName +' '+user.MiddleName + ' '+user.LastName}}</p>
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                  </div>
+                </div>
+              </div>
+              <div class="px-3">
+                <ul class="navbar-nav top-left-menu">
+                  <!--
+                    <li class="nav-item">
+                    <a class="nav-link py-3" href="#">
+                      <i class="fa fa-dashboard"></i> 
+                      <span class="px-3">Dashboard</span><span class="float-right pr-1">
+                        <i class="fa fa-caret-down"></i></span></a>
+                  </li> -->
+                  <ng-template ngIf="user && user.resources && user.resources.length>0">
+                  <li class="nav-item" *ngFor="let resource of user.resources;index as i;" id="{{i}}" ngClass="{{resource && resource.ResourceName === selectedNavigation?'active':''}}">
+                    <a class="nav-link  dropdown-toggle shadow rounded-0" href="javascript:void(0)" 
+                    (click) ="onNavigationSelect(resource);" 
+                    data-toggle="collapse" aria-expanded="false">
+                    <div class="py-2">
+                        <i class="" ngClass="{{resource.icon}}"></i> 
+                        <span class="px-3">{{RESOURCES[resource.ResourceName]}}</span>
+                    </div>
+                      <!--<span class="float-right pr-1"><i class="fa fa-caret-left" aria-hidden="true"></i></span> -->
+                    </a>
+                    <ul class="collapse list-unstyled main-nav" ngClass="{{resource && resource.enabled ? 'show' : ''}}">
+                        <li class="nav-item" *ngFor="let tab of resource.subTabs" (click)="onSubTabSelected(resource,tab)">
+                            <a class="nav-link px-3" href="javascript:void(0)" routerLink="{{tab.path}}" ngClass="{{tab.isSelected?'active':''}}">{{tab.title}}</a>
+                         </li> 
+                    </ul>
+                  </li>
+                </ng-template>
+                 
+                </ul>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="col-md-10 w-100 p-0 px-1">
+          <div class="content-wrapper">
+              <router-outlet></router-outlet>
+          </div>
+            
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+
+  </footer>
+</div>

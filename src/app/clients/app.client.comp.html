@@ -1,0 +1,51 @@
+<div class="c-header">
+    <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <div class=""> 
+                <button class="btn btn-info rounded-0 float-right" type="button" (click)="onNavigateTo(CRUD.NEW, '')">Create New Client</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th width="5%">S.No</th>
+                        <th width="20%">Client Name</th>
+                        <th width="10%">Client Type</th>
+                        <th width="20%">Line Of Business</th>
+                        <th width="20%">FEIN</th>
+                        <th width="10%">Date Created</th>
+                        <th width="10%">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-template ngIf="getClientsSize() > 0">
+                        <tr *ngFor="let item of clientList;index as i">
+                                <td>{{item.ID}}</td>
+                                <td>{{item.clientName}}</td>
+                                <td>{{item.clientType}}</td>
+                                <td>{{item.lineOfBusiness}}</td>
+                                <td>{{item.fein}}</td>
+                                <td>{{item.createdDate}}</td>
+                                <td>
+                                    <a href="javascript:void(0)" title='View Client' class="px-2" data-toggle='tooltip' (click)="onNavigateTo(CRUD.VIEW,item)" onClick="onNavigateTo(CRUD.VIEW,item)"><span class='fa fa-eye'></span></a>
+                                    <a href="javascript:void(0)" title='Update Client' class="px-2" data-toggle='tooltip' (click)="onNavigateTo(CRUD.EDIT, item)" onClick="onNavigateTo(CRUD.EDIT, item)"><span class='fa fa-pencil'></span></a>
+                                    <a href="javascript:void(0)" title='Delete Client' class="px-2" data-toggle='tooltip' (click)="onNavigateTo(CRUD.DELETE,item)" onClick="onNavigateTo(CRUD.DELETE, item)"><span class='fa fa-trash'></span></a>
+                                </td>
+                            </tr>
+                    </ng-template>
+                    <ng-template ngIf="getClientsSize() === 0">
+                        <tr>
+                            <td colspan="10"><div class="text-center" >No Data available</div></td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,682 @@
+<div class="c-header">
+    <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <h5>{{subTitle}}
+                <a href="#" routerLink="/layout/invoice" class="btn btn-primary rounded-0 float-right"><i class="fa fa-arrow-left pr-2"></i>BACK</a>
+            </h5>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+            <div class="invoice-crud-container" *ngIf="operationType === CRUD.NEW">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form class="form invoice-form" #invoiceForm="ngForm"  novalidate>
+                        <div class="form-group row">
+                            <label for="$invoiceDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                <em class="required-field">*</em>Invoice Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input appDate class="form-control app-date" type="text" value="" name="invoiceDate" id="invoiceDate" #invoiceDate="ngModel" [(ngModel)]="invoice.invoiceDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Invoice Date" required [inputValue]="invoice.invoiceDate" (ngModelChange)="onInvoiceDateChange($event)">
+                                <div class="error"></div>
+                            </div>
+                            <label for="aname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Associative Name
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="1" appAutofocus class="form-control" type="text" value="" name="aname" id="aname" #aname="ngModel" [(ngModel)]="invoice.associativeName"
+                                    autocomplete="off" placeholder="Associative Name" data-efield="Associative Name" MaxLength="25" (ngModelChange)="onAssociativeNameChng($event)" required>
+                                <div class="error"></div>
+                                <div id="associateList" class="autocomplete" *ngIf="associativeList && associativeList.length >0 ">
+                                    <ul class="autocomplete-items">
+                                        <li *ngFor="let associative of associativeList;let idx=index;">
+                                            <a href="javascript:void(0)" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right"><em class="required-field">*</em>Client Name
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                               <div *ngIf="!invoice.isMultiClient" >
+                                    <input tabindex="2" class="form-control" type="text" value="" name="cname" id="cname" #cname="ngModel" [(ngModel)]="invoice.cname" autocomplete="off"
+                                    placeholder="" MaxLength="10" data-efield="Client Name" required>
+                                    <div class="error"></div>
+                               </div>
+                               <div *ngIf="invoice.isMultiClient" >
+                                    <select tabindex="2" class="custom-select form-control" id="inlineFormSelect" (change)="onChangeClient($event)" name="cnameS" #cnameS="ngModel" [(ngModel)]="invoice.cnameS"
+                                        data-efield="Client Name" required>
+                                            <option value="" [selected]="invoice.cnameS==''" [value]="">-- Select --</option>
+                                            <ng-template ngIf="associateClientList && associateClientList.length > 0">
+                                                <option *ngFor="let cient of associateClientList; let idxx=index" [value]="idxx" [selected]="invoice.cnameS==idxx">{{cient.ClientName}}</option>
+                                            </ng-template>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                                <!--<div id="clientList" class="autocomplete" *ngIf="assignmentClientList && assignmentClientList.length >0 ">
+                                        <ul class="autocomplete-items">
+                                            <li *ngFor="let clientObj of assignmentClientList;let idx=index;">
+                                                <a href="#" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a></li>
+                                        </ul>
+                                    </div> -->
+                            </div>
+                            <label for="rate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right"><em class="required-field">*</em>Rate
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="3" class="form-control" numberOnly type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="invoice.rate" autocomplete="off"
+                                    placeholder="" data-efield="Rate" MaxLength="10" required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Unit
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="4" class="form-control" type="text" value="" name="unit" id="unit" #unit="ngModel" [(ngModel)]="invoice.unit" autocomplete="off"
+                                    placeholder="" MaxLength="10" data-efield="Unit">
+                                <div class="error"></div>
+                            </div>
+                            <label for="noOfUnits" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right"><em class="required-field">*</em>No Of Units
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="5" class="form-control" numberOnly type="text" value="" name="noOfUnits" id="noOfUnits" #noOfUnits="ngModel" [(ngModel)]="invoice.noOfUnits"
+                                (ngModelChange)="onNumberOfUnitsChange($event)" autocomplete="off" placeholder="" data-efield="No of Units of Work" MaxLength="25" required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="amount" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Amount
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="6" class="form-control" numberOnly type="text" value="" name="amount" id="amount" #amount="ngModel" [(ngModel)]="invoice.amount"
+                                    autocomplete="off" placeholder="" MaxLength="10" data-efield="Amount">
+                                <div class="error"></div>
+                            </div>
+                            <label for="deductions" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Deductions <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="7" class="form-control" numberOnly type="text" value="" name="deductions" id="deductions" #deductions="ngModel" [(ngModel)]="invoice.deductions"
+                                (ngModelChange)="onDeductionsChange($event)" autocomplete="off" placeholder="" data-efield="Deductions" MaxLength="10">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="type" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Type
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <select tabindex="8" class="custom-select form-control" id="inlineFormCustomSelect" name="type" #type="ngModel" [(ngModel)]="invoice.type"
+                                    data-efield="Type" required>
+                                    <option value="" selected>-- Select --</option>
+                                    <option value="Regular">Regular</option>
+                                    <option value="Expenses">Expenses</option>
+                                </select>
+                                <div class="error"></div>
+                            </div>
+                            <label for="qbinvNumber" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Quick Books Invoice No.
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="9" class="form-control" numberOnly type="text" value="" name="qbinvNumber" id="qbinvNumber" #qbinvNumber="ngModel" [(ngModel)]="invoice.qbinvNumber"
+                                    autocomplete="off" placeholder="Invoice Number" data-efield="Invoice Number" MaxLength="10">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="$dueDt" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Due Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="10" appDate class="form-control app-date" type="text" value="" name="dueDate" id="dueDate" #dueDate="ngModel" 
+                                [(ngModel)]="invoice.dueDate" autocomplete="off"
+                                    placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date" [inputValue]="invoice.dueDate">
+                                <div class="error"></div>
+                            </div>
+                            <label for="$fromDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">From Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="11" appDate class="form-control app-date" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" data-efield="From Date" MaxLength="10" [inputValue]="invoice.fromDate">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="$toDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">To Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="12" appDate class="form-control app-date" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" [inputValue]="invoice.toDate">
+                                <div class="error"></div>
+                            </div>
+                            <label for="$fromDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Comments
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="13" class="form-control" type="text" value="" name="comments" id="comments" #comments="ngModel" [(ngModel)]="invoice.comments"
+                                    autocomplete="off" placeholder="" data-efield="Comments" MaxLength="250">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <input type="hidden" name="associateID" id="associateID" [(ngModel)]="invoice.associateID" #associateID="ngModel"  />
+                                    <input type="hidden" name="assignmentID" id="assignmentID" [(ngModel)]="invoice.assignmentID" #assignmentID="ngModel"/>
+                                <button type="button" (click)="invoiceSubmit(invoiceForm)" class="btn rounded-0 float-right mx-2" ngClass="{{invoiceForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                <button type="button" class="btn btn-default rounded-0 float-right" (click)="invoiceCancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1"></div>
+
+                <!--<form class="form invoice-form" #invoiceForm="ngForm" (ngSubmit)="invoiceSubmit(invoiceForm)" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="invoiceDate">Invoice Date
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="invoiceDate" id="invoiceDate" #invoiceDate="ngModel" [(ngModel)]="invoice.invoiceDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Invoice Date" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="aname">Associative Name</label>
+                            <input class="form-control" type="text" value="" name="aname" id="aname" #aname="ngModel" [(ngModel)]="invoice.associativeName"
+                                autocomplete="off" placeholder="Associative Name" data-efield="Associative Name" MaxLength="25">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="cname">Client Name
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="cname" id="cname" #cname="ngModel" [(ngModel)]="invoice.cname" autocomplete="off"
+                                placeholder="" MaxLength="10" data-efield="Client Name" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="rate">Rate</label>
+                            <input class="form-control" type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="invoice.rate" autocomplete="off"
+                                placeholder="" data-efield="Rate" MaxLength="2">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="unit">Unit
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="unit" id="unit" #unit="ngModel" [(ngModel)]="invoice.unit" autocomplete="off"
+                                placeholder="" MaxLength="10" data-efield="Unit" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="noOfUnits">Number of Units</label>
+                            <input class="form-control" type="text" value="" name="noOfUnits" id="noOfUnits" #noOfUnits="ngModel" [(ngModel)]="invoice.noOfUnits"
+                                autocomplete="off" placeholder="" data-efield="No of Units" MaxLength="2">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="amount">Amount
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="amount" id="amount" #amount="ngModel" [(ngModel)]="invoice.amount"
+                                autocomplete="off" placeholder="" MaxLength="10" data-efield="Amount" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="deductions">Deductions</label>
+                            <input class="form-control" type="text" value="" name="deductions" id="deductions" #deductions="ngModel" [(ngModel)]="invoice.deductions"
+                                autocomplete="off" placeholder="" data-efield="Deductions" MaxLength="2">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="type">Type
+                                <em class="required-field">*</em>
+                            </label>
+                            <select class="custom-select form-control" id="inlineFormCustomSelect" name="type" #type="ngModel" [(ngModel)]="invoice.type"
+                                data-efield="Type" required>
+                                <option value="" selected>-- Select --</option>
+                                <option value="R">Regular</option>
+                                <option value="E">Expenses</option>
+                            </select>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="qbinvNumber">Quick Books Invoice Number</label>
+                            <input class="form-control" type="text" value="" name="qbinvNumber" id="qbinvNumber" #qbinvNumber="ngModel" [(ngModel)]="invoice.qbinvNumber"
+                                autocomplete="off" placeholder="Invoice Number" data-efield="Invoice Number" MaxLength="10">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="dueDt">Due Date
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="dueDt" id="dueDt" #dueDt="ngModel" [(ngModel)]="invoice.dueDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="fromDate">Fom Date</label>
+                            <input class="form-control" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" data-efield="From Date" MaxLength="10">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="toDate">To Date
+                                <em class="required-field">*</em>
+                            </label>
+                            <input class="form-control" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" required>
+                            <div class="error"></div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                            <label for="comments">Comments</label>
+                            <input class="form-control" type="text" value="" name="comments" id="comments" #comments="ngModel" [(ngModel)]="invoice.comments"
+                                autocomplete="off" placeholder="" data-efield="Comments" MaxLength="250">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class=" orm-group col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <button type="submit" class="btn rounded-0" ngClass="{{invoiceForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                            <button type="button" class="btn btn-default rounded-0">Cancel</button>
+                        </div>
+                    </div>
+                </form>-->
+            </div>
+            <div class="invoice-crud-container" *ngIf="operationType === CRUD.EDIT">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form class="form invoice-form" #invoiceEditForm="ngForm"  novalidate>
+                        <div class="form-group row">
+                            <label for="$invoiceDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Invoice Number
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                <input class="form-control" type="text" value="" name="id" id="id" #invoiceDate="ngModel" [(ngModel)]="invoice.ID"
+                                    autocomplete="off" placeholder="" MaxLength="5" data-efield="ID" required readonly="true">
+                                <div class="error"></div>
+                            </div>
+                            <label for="aname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    Associative Name
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
+                                <input  class="form-control" type="text" value="" name="aname" id="aname" #invoiceDate="ngModel" [(ngModel)]="invoice.associateName"
+                                    autocomplete="off" placeholder="" MaxLength="50" data-efield="Associative Name" required readonly="true">
+                                <div class="error"></div>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group row">
+                                <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        Client Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
+                                    <input  class="form-control" type="text" value="" name="cname" id="cname" #invoiceDate="ngModel" [(ngModel)]="invoice.cname"
+                                        autocomplete="off" placeholder="" MaxLength="50" data-efield="Client Name" required readonly="true">
+                                    <div class="error"></div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Invoice Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input appDate class="form-control app-date" type="text" value="" name="invoiceDate" id="invoiceDate" #invoiceDate="ngModel" [(ngModel)]="invoice.invoiceDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Invoice Date" required [inputValue]="invoice.invoiceDate" (ngModelChange)="onInvoiceDateChange($event)">
+                                <div class="error"></div>
+                            </div>
+                            <label for="rate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Rate
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input class="form-control" numberOnly type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="invoice.rate" autocomplete="off"
+                                    placeholder="" data-efield="Rate" MaxLength="10" required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Unit
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input class="form-control" type="text" value="" name="unit" id="unit" #unit="ngModel" [(ngModel)]="invoice.unit" autocomplete="off"
+                                    placeholder="" MaxLength="10" data-efield="Unit">
+                                <div class="error"></div>
+                            </div>
+                            <label for="noOfUnits" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right"><em class="required-field">*</em>No Of Units
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="1" class="form-control" numberOnly type="text" value="" name="noOfUnits" id="noOfUnits" #noOfUnits="ngModel" [(ngModel)]="invoice.noOfUnits"
+                                (ngModelChange)="onNumberOfUnitsChange($event)" autocomplete="off" placeholder="" data-efield="No of Units of Work" MaxLength="25" required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="amount" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Amount
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="2" class="form-control" numberOnly type="text" value="" name="amount" id="amount" #amount="ngModel" [(ngModel)]="invoice.amount"
+                                    autocomplete="off" placeholder="" MaxLength="10" data-efield="Amount">
+                                <div class="error"></div>
+                            </div>
+                            <label for="deductions" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Deductions <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="3" class="form-control" numberOnly type="text" value="" name="deductions" id="deductions" #deductions="ngModel" [(ngModel)]="invoice.deductions"
+                                (ngModelChange)="onDeductionsChange($event)" autocomplete="off" placeholder="" data-efield="Deductions" MaxLength="10">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="type" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Type
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <select tabindex="4" class="custom-select form-control" id="inlineFormCustomSelect" name="type" #type="ngModel" [(ngModel)]="invoice.type"
+                                    data-efield="Type" required>
+                                    <option value="">-- Select --</option>
+                                    <option value="Regular" [value]="'Regular'">Regular</option>
+                                    <option value="Expenses" [value]="'Expenses'">Expenses</option>
+                                </select>
+                                <div class="error"></div>
+                            </div>
+                            <label for="deductions" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Quick Books Invoice No.
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="5" class="form-control" numberOnly type="text" value="" name="qbinvNumber" id="qbinvNumber" #qbinvNumber="ngModel" [(ngModel)]="invoice.qbinvNumber"
+                                    autocomplete="off" placeholder="Invoice Number" data-efield="Invoice Number" MaxLength="10">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="$dueDt" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Due Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="6" appDate class="form-control app-date" type="text" value="" name="dueDate" id="dueDate" #dueDate="ngModel" [(ngModel)]="invoice.dueDate" autocomplete="off"
+                                    placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date" [inputValue]="invoice.dueDate">
+                                <div class="error"></div>
+                            </div>
+                            <label for="$fromDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">From Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="7" appDate class="form-control app-date" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" data-efield="From Date" MaxLength="10" [inputValue]="invoice.fromDate">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="$toDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">To Date
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="8" appDate class="form-control app-date" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate"
+                                    autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" [inputValue]="invoice.toDate">
+                                <div class="error"></div>
+                            </div>
+                            <label for="$fromDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Comments
+                                <span class="pl-2">:</span>
+                            </label>
+                            <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                <input tabindex="9" class="form-control" type="text" value="" name="comments" id="comments" #comments="ngModel" [(ngModel)]="invoice.comments"
+                                    autocomplete="off" placeholder="" data-efield="Comments" MaxLength="250">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <input type="hidden" name="associateID" id="associateID" [(ngModel)]="invoice.associateID" #associateID="ngModel"  />
+                                    <input type="hidden" name="assignmentID" id="assignmentID" [(ngModel)]="invoice.assignmentID" #assignmentID="ngModel"/>
+                                <button type="button" (click)="invoiceEditSubmit(invoiceEditForm)" class="btn rounded-0 float-right mx-2" ngClass="{{invoiceEditForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                <button type="button" class="btn btn-default rounded-0 float-right" (click)="invoiceCancel()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="invoice-crud-container" *ngIf="operationType === CRUD.VIEW">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form class="form invoice-form" #invoiceRepayForm="ngForm"  novalidate> 
+                    <div class="form-group row">
+                        <label for="$invoiceDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Invoice Number
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input  class="form-control" type="text" value="" name="id" id="id" #invoiceId="ngModel" [(ngModel)]="invoice.ID"
+                                autocomplete="off" placeholder="" MaxLength="5" data-efield="ID" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="altID" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            QuickBook Invoice Number
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
+                            <input  class="form-control" type="text" value="" name="altID" id="altID" #altID="ngModel" [(ngModel)]="invoice.altID"
+                                autocomplete="off" placeholder="" MaxLength="50" data-efield="Alt ID" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="aname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Associative Name
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
+                            <input  class="form-control" type="text" value="" name="aname" id="aname" #aname="ngModel" [(ngModel)]="invoice.associateName"
+                                autocomplete="off" placeholder="" MaxLength="50" data-efield="Associative Name" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Client Name
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
+                            <input  class="form-control" type="text" value="" name="cname" id="cname" #invoiceDate="ngModel" [(ngModel)]="invoice.cname"
+                                autocomplete="off" placeholder="" MaxLength="50" data-efield="Client Name" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="aname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Invoice Date
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
+                            <input appDate class="form-control app-date" type="text" value="" name="invoiceDate" id="invoiceDate" #invoiceDate="ngModel" [(ngModel)]="invoice.invoiceDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Invoice Date" [inputValue]="invoice.invoiceDate" readonly="true" disabled="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                Due Date
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
+                            <input appDate class="form-control app-date" type="text" value="" name="dueDate" id="dueDate" #dueDate="ngModel" [(ngModel)]="invoice.dueDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date" [inputValue]="invoice.dueDate" readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="fDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                From Date
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
+                            <input appDate class="form-control app-date" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="From Date" [inputValue]="invoice.fromDate" readonly="true" disabled="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="toDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                To Date
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
+                            <input appDate class="form-control app-date" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" [inputValue]="invoice.toDate" readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="noOfUnits" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Rate
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" numberOnly type="text" value="" name="rate" id="rate" #rate="ngModel" [(ngModel)]="invoice.rate"
+                            autocomplete="off" placeholder="" data-efield="Rate" MaxLength="25" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+
+                        <label for="noOfUnits" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            No Of Units
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" numberOnly type="text" value="" name="noOfUnits" id="noOfUnits" #noOfUnits="ngModel" [(ngModel)]="invoice.noOfUnits"
+                            (ngModelChange)="onNumberOfUnitsChange($event)" autocomplete="off" placeholder="" data-efield="No of Units of Work" MaxLength="25" required readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="amount" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Amount
+                                <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" numberOnly type="text" value="" name="amount" id="amount" #amount="ngModel" [(ngModel)]="invoice.amount"
+                                autocomplete="off" placeholder="" MaxLength="10" data-efield="Amount" readonly="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="deductions" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Deductions <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" numberOnly type="text" value="" name="deductions" id="deductions" #deductions="ngModel" [(ngModel)]="invoice.deductions"
+                            (ngModelChange)="onDeductionsChange($event)" autocomplete="off" placeholder="" data-efield="Deductions" MaxLength="10" readonly="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="unit" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Unit
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" type="text" value="" name="unit" id="unit" #unit="ngModel" [(ngModel)]="invoice.unit" autocomplete="off"
+                                placeholder="" MaxLength="10" data-efield="Unit" readonly="true">
+                            <div class="error"></div>
+                        </div>
+                        <label for="type" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            Type
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <select class="custom-select form-control" id="inlineFormCustomSelect" name="type" #type="ngModel" [(ngModel)]="invoice.type"
+                                data-efield="Type" readonly="true" disabled="true">
+                                <option value="">-- Select --</option>
+                                <option value="Regular" [value]="'Regular'">Regular</option>
+                                <option value="Expenses" [value]="'Expenses'">Expenses</option>
+                            </select>
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group row">
+                        <label for="" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                <em class="required-field">*</em>Received Date.
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input appDate class="form-control app-date" type="text" value="" name="receivedDate" id="receivedDate" #dueDt="ngModel" [(ngModel)]="invoice.receivedDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Received Date" [inputValue]="invoice.receivedDate" required>
+                            <div class="error"></div>
+                        </div>
+                        <label for="receivedAmount" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                <em class="required-field">*</em>Received Amount
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input appAutofocus class="form-control" numberOnly type="text" value="" name="receivedAmount" id="receivedAmount" #receivedAmount="ngModel" [(ngModel)]="invoice.receivedAmount"
+                                autocomplete="off" placeholder="Received Amount" data-efield="Received Amount" MaxLength="10" required>
+                            <div class="error"></div>
+                        </div>
+                    </div> -->
+                    <div class="form-group row">
+                        <label for="paymentM" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                <em class="required-field">*</em>Payment Method
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <select class="custom-select form-control" id="inlineFormCustomSelect" name="paymentMethod" #paymentMethod="ngModel" [(ngModel)]="invoice.paymentMethod"
+                                data-efield="Type" readonly="true" disabled="true">
+                                <option value="" [value]="''">-- Select --</option>
+                                <option value="Check" [value]="'Check'">Check</option>
+                                <option value="Direct Deposit" [value]="'Direct Deposit'">Direct Deposit</option>
+                                <option value="Cash" [value]="'Cash'">Cash</option>
+                            </select>
+                            <div class="error"></div>
+                        </div>
+                        <label for="comments" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">Comments
+                            <span class="pl-2">:</span>
+                        </label>
+                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                            <input class="form-control" type="text" value="" name="comments" id="comments" #comments="ngModel" [(ngModel)]="invoice.comments"
+                                autocomplete="off" placeholder="" data-efield="Comments" MaxLength="250" readonly="true" disabled="true">
+                            <div class="error"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <input type="hidden" name="ID" id="ID" [(ngModel)]="invoice.ID" #ID="ngModel" [(ngModel)]="invoice.ID" />
+                            <!--<button type="button" (click)="invoiceRepaySubmit(invoiceRepayForm)" class="btn rounded-0 float-right mx-2" ngClass="{{invoiceRepayForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button> 
+                            <button type="button" class="btn btn-default rounded-0 float-right" (click)="invoiceCancel()">Cancel</button> -->
+                        </div>
+                    </div>
+                    </form>
+                </div>
+                <div class="col-1"></div>
+               
+            </div>
+        </div>
+    </div>
+
+</div>

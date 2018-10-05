@@ -1,0 +1,140 @@
+<div class="c-header">
+        <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <h5>{{subTitle}}</h5>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="client-crud-container" >
+                 <div class="row">
+                     <div class="col-1"></div>
+                     <div class="col-10" *ngIf="operationType === CRUD.NEW || operationType === CRUD.EDIT">
+                        <form class="form client-form" appValidate #clientNewForm="ngForm" novalidate>
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Name Of The Client
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input  class="form-control" type="text" value="" name="name" id="name" #name="ngModel" [(ngModel)]="client.name"
+                                        autocomplete="off" placeholder="Client Name" MaxLength="50" data-efield="Client Name" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Type of Client
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="type"
+                                     name="type" #type="ngModel" [(ngModel)]="client.type"
+                                    data-efield="Type" required>
+                                        <option value="" [value]="''">-- Select --</option>
+                                        <option value="Vendor" [value]="'Vendor'">Vendor</option>
+                                        <option value="Primary Vendor" [value]="'Primary Vendor'">Primary Vendor</option>
+                                        <option value="End Clint" [value]="'End Clint'">End Clint</option>
+                                        <option value="Partner" [value]="'Partner'">Partner</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="clientName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Line Of Business
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="lineOfBusiness" id="lineOfBusiness" #lineOfBusiness="ngModel" [(ngModel)]="client.lineOfBusiness"
+                                    autocomplete="off" placeholder="Line Of Business" data-efield="Line Of Business" MaxLength="225" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="technology" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>FEIN
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="fein" id="fein" #fein="ngModel" [(ngModel)]="client.fein"
+                                        autocomplete="off" pattern="^\d{2}-\d{7}$" placeholder="xx-xxxxxxx" data-efield="FEIN" MaxLength="10" required>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fax" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>FAX Number
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="fax" id="fax" #fax="ngModel" [(ngModel)]="client.fax"
+                                    autocomplete="off" pattern="^(?:\(\d{3}\)|\d{3}-)\d{3}-\d{4}$" placeholder="xxx-xxx-xxxx" data-efield="Fax" MaxLength="12" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="technology" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Web Site URL
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="url" id="url" #url="ngModel" [(ngModel)]="client.url"
+                                        autocomplete="off" placeholder="http://www.google.com" data-efield="URL" MaxLength="20" required>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                    <input type="hidden" id="ID" name="ID" #ID="ngModel" [(ngModel)]="client.ID" />
+                                    <button type="button" (click)="clientNewFormSubmit(clientNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{clientNewForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                    <button type="button" class="btn btn-default rounded-0 float-right" (click)="clientCancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                     </div>
+                     <div class="col-10" *ngIf="operationType === CRUD.REPAY">
+                         <form class="form client-form" #clientEditForm="ngForm" novalidate>
+                        </form>
+                     </div>
+                     <div class="col-10" *ngIf="operationType === CRUD.VIEW">
+                     </div>
+                     <div class="col-1"></div>
+                 </div>
+                 <div class="row" *ngIf="operationType === CRUD.VIEW">
+                     <div class="col-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th width="20%">Client Name</th>
+                                    <th width="10%">Client Type</th>
+                                    <th width="20%">Line Of Business</th>
+                                    <th width="10%">FEIN</th>
+                                    <th width="10%">FAX</th>
+                                    <th width="10%">Web Site URL</th>
+                                    <th width="10%">Date Created</th>
+                                    <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{client.name}}</td>
+                                    <td>{{client.type}}</td>
+                                    <td>{{client.lineOfBusiness}}</td>
+                                    <td>{{client.fein}}</td>
+                                    <td>{{client.fax}}</td>
+                                    <td>{{client.url}}</td>
+                                    <td>{{client.createdDate}}</td>
+                                    <td><a href="javascript:void(0)" title='Add Contact Details' class="px-2" data-toggle='tooltip' (click)="onAddConcat(CRUD.NEW,item)"><span class='fa fa-plus'></span></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-12">
+                            <h6 class='pull-left'>Client Addresses</h6>
+                            <h6 class='text-center'>Client Addresses</h6>
+                            <h6 class='pull-right'>Client Addresses</h6>
+                        </div>
+                     </div>
+                 </div><!--End Of row-->
+            </div>
+        </div>
+    </div>
+</div>

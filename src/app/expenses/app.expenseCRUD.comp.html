@@ -1,0 +1,170 @@
+<div class="c-header">
+    <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <h5>{{subTitle}}
+                <a href="#" routerLink="/layout/exp" class="float-right">BACK</a>
+            </h5>
+
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="invoice-crud-container">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="" *ngIf="operationType === CRUD.NEW || operationType === CRUD.EDIT">
+                        <form class="form expense-form" #expenseNewForm="ngForm" novalidate>
+                            <div class="form-group row">
+                                <label for="$invoiceDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Expense Date
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input appDate class="form-control app-date" type="text" value="" name="expenseDate" id="expenseDate" #expenseDate="ngModel"
+                                        [(ngModel)]="expense.expenseDate" autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10"
+                                        data-efield="Expense Date" required [inputValue]="expense.expenseDate" [dOptions]="dateOfOptions">
+                                    <div class="error"></div>
+                                </div>
+                                <label for="aname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Amount
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input appAutofocus class="form-control" type="text" value="" name="amount" id="amount" #amount="ngModel" [(ngModel)]="expense.amount"
+                                        autocomplete="off" placeholder="xxx.xx" data-efield="Amount" MaxLength="10" required>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cname" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Payee Name
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control" type="text" value="" name="payee" id="payee" #payee="ngModel" [(ngModel)]="expense.payee" autocomplete="off"
+                                        placeholder="" MaxLength="25" data-efield="Payee Name" required>
+                                    <div class="error"></div>
+                                </div>
+                                <label for="PaymentMethod" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Payment Method
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="paymentMethod" name="paymentMethod" #paymentMethod="ngModel" [(ngModel)]="expense.paymentMethod"
+                                        data-efield="Payment Method" required>
+                                        <option value="" selected>-- Select --</option>
+                                        <option value="Bank Of America by Check">Bank Of America by Check</option>
+                                        <option value="Bank Of America by Online">Bank Of America by Online</option>
+                                        <option value="Bank Of America Credit Card">Bank Of America Credit Card</option>
+                                        <option value="American Express Credit Card">American Express Credit Card</option>
+                                        <option value="Chase Credit Card">Chase Credit Card</option>
+                                        <option value="Cash">Cash</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="header" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        <em class="required-field">*</em>Expense Header
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <select class="custom-select form-control" id="header" name="header" #header="ngModel" 
+                                    [(ngModel)]="expense.header" data-efield="Expense Header" required>
+                                        <option value="" selected>-- Select --</option>
+                                        <option value="Unknown">Unknown</option>
+                                        <option value="Payroll">Payroll</option>
+                                        <option value="Employee Reimbursement">Employee Reimbursement</option>
+                                        <option value="Immigration">Immigration</option>
+                                        <option value="Indian Operations">Indian Operations</option>
+                                        <option value="Insurance">Insurance</option>
+                                        <option value="Legal Services & Fee">Legal Services & Fee</option>
+                                        <option value="Client Engagement">Client Engagement</option>
+                                        <option value="Office Rent">Office Rent</option>
+                                        <option value="Office Supplies">Office Supplies</option>
+                                        <option value="Office Expenses">Office Expenses</option>
+                                        <option value="Utilities">Utilities</option>
+                                        <option value="Marketing & Promotional">Marketing & Promotional</option>
+                                    </select>
+                                    <div class="error"></div>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    <label class="float-right">
+                                        <input type="radio" name="ref" id="rCompany"  (change)="onRefChange($event)" [(ngModel)]="expense.ref" [value]="'rCompany'" [checked]="expense.ref === 'rCompany'">
+                                        Company
+                                    </label>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <label>
+                                        <input type="radio" name="ref" id="rIndividual"  (change)="onRefChange($event)" [(ngModel)]="expense.ref" [value]="'rIndividual'" [checked]="expense.ref === 'rIndividual'">
+                                        Individual
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="$refernce" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    <em class="required-field">*</em>Reference
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control app-date" type="text" value="" name="associateName" id="associateName" #associateName="ngModel"
+                                        [(ngModel)]="expense.associateName" autocomplete="off" placeholder="Reference"
+                                        data-efield="Reference" required MaxLength="25" (ngModelChange)="onAssociativeNameChange($event)">
+                                    <div class="error"></div>
+                                    <div id="associateList" class="autocomplete" *ngIf="associativeList && associativeList.length >0 ">
+                                        <ul class="autocomplete-items">
+                                            <li *ngFor="let associative of associativeList;let idx=index;">
+                                                <a href="javascript:void(0)" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <label for="description" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                        Description
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input  class="form-control" type="text" value="" name="description" id="description" 
+                                    #description="ngModel" [(ngModel)]="expense.description"
+                                        autocomplete="off" placeholder="" data-efield="description" MaxLength="250">
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="comments" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                    Comments
+                                    <span class="pl-2">:</span>
+                                </label>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                    <input class="form-control app-date" type="text" value="" name="comments" id="comments" #comments="ngModel"
+                                        [(ngModel)]="expense.comments" autocomplete="off" placeholder=""
+                                        data-efield="Comments"  MaxLength="250">
+                                    <div class="error"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                        <input type="hidden" name="associateID" id="associateID" [(ngModel)]="expense.associateID" #associateID="ngModel"  />
+                                        <input type="hidden" name="ID" id="ID" [(ngModel)]="expense.ID" #ID="ngModel"  />
+                                    <button type="button" (click)="expenseNewSubmit(expenseNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{expenseNewForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                                    <button type="button" class="btn btn-default rounded-0 float-right" (click)="expenseCancel()">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                <div class="" *ngIf="operationType === CRUD.VIEW">
+                        <app-grid [options]="options"></app-grid>
+                </div>
+        </div>
+    </div>
+</div>

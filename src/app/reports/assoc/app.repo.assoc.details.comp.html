@@ -1,0 +1,100 @@
+<div class="c-header">
+    <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="nav-tab"  role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" ngClass="{{selectedTab === TABS.INCOME?' active':''}}" id="nav-income-tab" data-toggle="tab" href="#nav-income" role="tab" aria-controls="nav-income" aria-selected="true" (click)="onTabChange(TABS.INCOME)">Income</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  ngClass="{{selectedTab === TABS.EXPENSES?' active':''}}" id="nav-expenses-tab" data-toggle="tab" href="#nav-expenses" role="tab" aria-controls="nav-expenses" aria-selected="false" (click)="onTabChange(TABS.EXPENSES)">Expenses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ngClass="{{selectedTab === TABS.SUMMARY?' active':''}}" id="nav-summary-tab" data-toggle="tab" href="#nav-summary" role="tab" aria-controls="nav-summary" aria-selected="false" (click)="onTabChange(TABS.SUMMARY)">Summary</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade " ngClass="{{selectedTab === TABS.INCOME?'show active':''}}"  id="nav-income" role="tabpanel" aria-labelledby="nav-income-tab">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 no-padding margin-t-2">
+                            <div class="c-header" >
+                                Income Details
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <app-grid [options]="options" ></app-grid>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ngClass="{{selectedTab === TABS.EXPENSES?'show active':''}}" id="nav-expenses" role="tabpanel" aria-labelledby="nav-expenses-tab">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 no-padding margin-t-2">
+                            <div class="c-header" >
+                                Expenses Details
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <app-grid [options]="options" ></app-grid>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ngClass="{{selectedTab === TABS.SUMMARY?'show active':''}}" id="nav-summary" role="tabpanel" aria-labelledby="nav-summary-tab">
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12  margin-t-2">
+                            <h3 class="c-header"> Associate Summery Of {{state && state.data && state.data.FullName || ''}}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xl-3"></div>
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xl-6 no-padding margin-t-2">
+                                <div class="card rounded-0">
+                                    <div class="card-body rounded-0" *ngIf="!isSummaryNull()">
+                                        <!-- <div class="card-title"><h4 class="text-center">Summary</h4></div> -->
+                                       <div class="row">
+                                          <div class="col-md-4 col-sm-4 col-xl-4 text-right"><h6>Total Income<span class="pl-2">-</span></h6></div>
+                                          <div class="col-md-8 col-sm-8 col-xl-8 text-left"><h6>{{summaryData && summaryData.TotalIncome |currency}}</h6></div>
+                                       </div> 
+                                       <div class="row margin-t-2">
+                                            <div class="col-md-4 col-sm-4 col-xl-4 text-right"><h6>Total Expenses<span class="pl-2">-</span></h6></div>
+                                            <div class="col-md-8 col-sm-8 col-xl-8 text-left"><h6>{{summaryData && summaryData.TotalExpenses | currency}}</h6></div>
+                                       </div>
+                                       <div class="row margin-t-2">
+                                            <div class="col-md-4 col-sm-4 col-xl-4 text-right"><h6>Total Balence<span class="pl-2">-</span></h6></div>
+                                            <div class="col-md-8 col-sm-8 col-xl-8 text-left"><h6 class="badge " ngClass="{{isBalenceIsNegative(summaryData)?'badge-success':'badge-danger' }}">{{summaryData && summaryData.Balance | currency}}</h6></div>
+                                        </div> 
+                                    </div>  
+                                    <div class="card-body rounded-0" *ngIf="isSummaryNull()">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12"><span class="text-center">No Data Available</span></div>
+                                            </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xl-3"></div>
+                    </div>
+                    <!-- 
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                            <app-grid [options]="options" ></app-grid>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

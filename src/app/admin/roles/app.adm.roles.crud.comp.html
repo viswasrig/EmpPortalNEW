@@ -1,0 +1,61 @@
+<div class="c-header">
+        <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <h5>{{subTitle}}
+                <a href="#" routerLink="/layout/adm-as-role" class="float-right">BACK</a>
+            </h5>
+            <hr/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" *ngIf="operationType === CRUD.NEW">
+            <form class="form adm-compen-form" appValidate #adminCompenNewForm="ngForm" novalidate>
+                <div class="form-group row">
+                    <label for="assoc" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                            <em class="required-field">*</em>Associae Name
+                        <span class="pl-2">:</span>
+                    </label>
+                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                        <input class="form-control" type="text" value="" name="associateName" id="associateName" #associateName="ngModel" [(ngModel)]="roleMap.associateName"
+                            autocomplete="off" placeholder="Associate Name" data-efield="Associate Name" MaxLength="25" required (ngModelChange)="onAssociateNameChange($event)">
+                        <div class="error"></div>
+                        <div id="associateList" class="autocomplete" *ngIf="associatesList && associatesList.length >0 ">
+                            <ul class="autocomplete-items">
+                                <li *ngFor="let associative of associatesList;let idx=index;">
+                                    <a href="javascript:void(0)" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <label for="RoleSelect" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                        <em class="required-field">*</em>Select Role
+                        <span class="pl-2">:</span>
+                    </label>
+                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                        <select class="custom-select form-control" id="RoleID" name="RoleID" #RoleID="ngModel" [(ngModel)]="roleMap.RoleID"
+                        (ngModelChange)="onRoleIDChange(roleMap.RoleID)" data-efield="Role Map" required>
+                            <option value="" selected>-- Select --</option>
+                            <option *ngFor="let role of allAvailableRoles" [value]="role.ID">{{role.RoleDesc}}</option>
+                            <option value="NEW">Add New Role</option>
+                        </select>
+                        <div class="error"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                        <input type="hidden"  name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="roleMap.associateID" />
+                        <button type="button" (click)="compenNewFormSubmit(adminCompenNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminCompenNewForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
+                        <button type="button" class="btn btn-default rounded-0 float-right" (click)="compensationCancel()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-10" *ngIf="operationType === CRUD.EDIT"></div>
+        <div class="col-md-10" *ngIf="operationType === CRUD.VIEW"></div>
+        <div class="col-md-1"></div>
+    </div>
+</div>

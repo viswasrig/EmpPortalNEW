@@ -1,0 +1,172 @@
+<!-- Login Page Implementation -->
+<div class="wrapper">
+    <div class="container">
+        <div class="layout-center">
+                <div class="w-100 sign-tabs">
+                        <div class="float-right">
+                             <button class="btn rounded-0 log-in-t" ngClass="{{isSelectedBtn === BUTTONS.LOGIN?' active':'disabled' }}" (click) ="showForms(BUTTONS.LOGIN)">Log in</button>
+                        </div>
+                        <div class="float-right">
+                             <button class="btn rounded-0 sign-up-t" ngClass="{{isSelectedBtn === BUTTONS.SIGNUP?' active':'disabled' }}" (click) ="showForms(BUTTONS.SIGNUP)">Sign up</button>
+                        </div>
+                        <input type="hidden" name="ltype" class="l-type" value="" /> 
+                </div>
+                
+                <div class="card shadow-lg bg-white rounded-0 border-top-0 w-100">
+                    <div class="card-body">
+                        <div class="login-container" *ngIf="isSelectedBtn === BUTTONS.LOGIN">  
+                            <div class="sign-in">
+                                <span class="title">{{title}} <i class="fa fa-lock px-1 color_orange_1"></i> </span>
+                            </div>
+                            <div class="spacer"></div>
+                            <app-inline-alert [msg]="error.text" [type]="error.type" (action)="isCloseAlert($event)" *ngIf="error.isResponseError"></app-inline-alert>
+                            <!-- <div class="alert alert-danger" *ngIf="error.isResponceError">
+                                <strong>Error!</strong> {{error.text}}.
+                            </div> -->
+                            <div class="section login-form-container w-100" >
+                                <div class="row">
+                                    <div class="col-7">
+                                        <form class="form log-in-from" name="loginForm" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+                                            <fieldset>
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <div class="form-group l-field mb-0">
+                                                            <input class="form-control rounded-0 user-id" placeholder="User Id" name="userid" type="text" autofocus autocomplete="off" maxLength="25" data-efield="User Id" required [(ngModel)]="loginModel.userid" #userid="ngModel">
+                                                            <div class="error"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <div class="form-group l-field mb-0">
+                                                           <input class="form-control rounded-0 password" placeholder="Password" name="password" type="password"  value="" data-efield="Password" maxLength="40" required [(ngModel)]="loginModel.password" #password="ngModel">
+                                                            <div class="error"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <div class="checkbox ">
+                                                            <label>
+                                                                <input name="rememberme" type="checkbox" #rememberme="ngModel" value="" [(ngModel)]="loginModel.rememberme"><span class="px-1" >Remember Me</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <!-- Change this to a button or input when using this as a form -->
+                                                        <button type="submit" class="btn btn-md  btn-block rounded-0" ngClass="{{loginForm.valid?'btn-primary':'disabled'}}" >Login</button>
+                                                        <!--<a href="index.html" class="btn btn-md btn-primary btn-block rounded-0">Login</a> -->
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                    <div class="col-5 p-0">
+                                        <div class="l-r-section px-2 py-3">
+                                            <div class="d-inline-block">
+                                                <h6 class="mb-1">Don't have an account?</h6>
+                                                <p class="small"><a class="no-underline" href="#" (click) ="showForms(BUTTONS.SIGNUP)">Sign Up now!</a></p>
+                                            </div>
+                                            <div class="d-inline-block">
+                                                <h6 class="mb-1">Did you forget your password?</h6>
+                                                <p class="small"><a class="no-underline" href="#">Recover it here!</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!--row end-->
+                            </div> <!-- lofn-form-container --End -->
+                        </div><!-- Login Container End -->
+                        <!--- Sign Up Form Container -->
+                        <div class="sign-up-container" *ngIf="isSelectedBtn === BUTTONS.SIGNUP">
+                            <div class="sign-in">
+                                <span class="title">{{title}}<i class="fa fa-user-plus px-1 color_green_1"></i> </span>
+                            </div>
+                            <div class="spacer"></div>
+                            <app-inline-alert [msg]="error.text" [type]="error.type" (action)="isCloseAlert($event)" *ngIf="error.isResponseError"></app-inline-alert>
+                            <div class="section container signup-form-container w-100">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 p-0 mb-0">
+                                        <form class="form sign-up-form" #signUpForm="ngForm" (ngSubmit)="signUpFormSubmit(signUpForm)"  novalidate>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="fname">First Name<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="text" value="" name="fname" id="fname" #fname="ngModel" [(ngModel)]="user.fname" autocomplete="off" placeholder="First Name" MaxLength="25" data-efield="First Name"  required>
+                                                    <div class="error"></div>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="mname">Middle Name</label>
+                                                    <input class="form-control" type="text" value="" name="mname" id="mname" #mname="ngModel" [(ngModel)]="user.mname" autocomplete="off" placeholder="Middle Name" data-efield="Middle Name" MaxLength="25">
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="lname">Last Name<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="text" value="" name="lname" id="lname" #lname="ngModel" [(ngModel)]="user.lname" autocomplete="off" placeholder="Last Name" MaxLength="25" data-efield="Last Name" required>
+                                                    <div class="error"></div>
+                                                </div>
+                                                <div class="form-group date col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="dob">Date of Birth</label>
+                                                    <input #dob class="form-control datepicker" type="text" value="" name="dob" id="dob" #dob="ngModel" [(ngModel)]="user.dob" autocomplete="off" MaxLength="10" placeholder="MM/dd/YYYY" data-efield="Date of Birth">
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="ssn">SSN</label>
+                                                    <input class="form-control" type="text" value="" name="ssn" id="ssn" #ssn="ngModel" [(ngModel)]="user.ssn" autocomplete="off" placeholder="SSN" data-efield="SSN" MaxLength="11">
+                                                    <div class="error"></div>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="gender">Gender</label>
+                                                    <select class="custom-select form-control" id="inlineFormCustomSelect" name="gender" #gender="ngModel" [(ngModel)]="user.gender" data-efield="Gender" required>
+                                                        <option value="-1" selected>-- Select --</option>
+                                                        <option value="M">MALE</option>
+                                                        <option value="F">Female</option>
+                                                        <option value="O">Other</option>
+                                                    </select>
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="userid">User Id<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="text" value="" name="userid" id="userid" #userid="ngModel" [(ngModel)]="user.userid" MaxLength="25" autocomplete="off" placeholder="User Id" data-efield="User Id" required>
+                                                    <div class="error"></div>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="dob">Password<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="password" value="" name="pwd" id="pwd" #pwd="ngModel" [(ngModel)]="user.pwd" MaxLength="40" autocomplete="off" placeholder="Password" data-efield="Password" required>
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="userid">Email<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="email" value="" name="email" id="email" #email="ngModel" [(ngModel)]="user.email" autocomplete="off" placeholder="Email" MaxLength="50" data-efield="Email" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
+                                                    <div class="error"></div>
+                                                </div>
+                                                <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                                    <label for="mobileNumber">Mobile Number<em class="required-field">*</em></label>
+                                                    <input class="form-control" type="text" value="" name="mobileNumber" id="mobileNumber" #mobileNumber="ngModel" [(ngModel)]="user.mobileNumber" autocomplete="off" MaxLength="10" data-efield="Mobile Number" placeholder="Mobile Number (Ex: xxxxxxxxxx)" pattern="^(\+\d{1,3}[- ]?)?\d{10}$" required>
+                                                    <div class="error"></div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12 col-sm-12 col-lg-12 col-xl-12 mb-0">
+                                                    <button type="submit" class="btn btn-default  rounded-0 float-right my-2">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                        </div>
+                    </div><!-- Sign Up Container end -->
+
+                    </div><!-- Card Body End-->
+                </div> <!-- Card End-->
+        </div>
+    </div>
+</div>

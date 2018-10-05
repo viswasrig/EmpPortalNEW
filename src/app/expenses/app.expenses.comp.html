@@ -1,0 +1,17 @@
+<div class="c-header">
+        <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 my-3">
+            <div class=""> 
+                <button class="btn btn-info rounded-0 float-right" type="button" (click)="onNavigateTo(CRUD.NEW, '')">Create New Expense</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <app-grid [options]="options"></app-grid>
+        </div>
+    </div>
+</div>

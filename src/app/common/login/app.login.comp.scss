@@ -1,0 +1,114 @@
+.wrapper{
+    background-color: #ebeeef;
+    width: 100%;
+    height:100%;
+    min-height: 100vh;
+}
+
+.layout-center{
+    width: 750px;
+    min-height: 350px;
+    position:absolute; /*it can be fixed too*/
+    left:0; right:0;
+    top:10%;
+    margin:auto;
+    /*this to solve "the content will not be cut when the window is smaller than the content": */
+    max-width:100%;
+    max-height:100%;
+    
+}
+
+.log-in-t:focus, .log-in-t:hover,.sign-up-t:focus,.sign-up-t:hover {
+    box-shadow: none;
+    border-color: transparent;
+    cursor: pointer;
+}
+
+.log-in-t.active, .sign-up-t.active{
+    color: #000;
+    background-color: #FFF;
+    box-shadow: none;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.font-wight-600{
+    font-weight:600;
+}
+
+.sign-in{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 20px;
+    font-family: 'Robotic', sans-serif;
+}
+
+.sign-in .title{
+    box-shadow: 1px 2px 0px 1px #fff;
+    text-shadow: 0px 5px #f1f1f1;
+}
+
+.color_orange_1{
+    color:#fd8402;
+}
+.color_green_1{
+    color:#04f704;
+}
+.spacer{
+    margin-bottom: 20px;
+}
+.sign-tabs{ 
+    position: relative;
+    padding: 1px;
+}
+
+.login-form-container,.signup-form-container{
+    margin-top:5vh;
+}
+
+.form-control{
+    border-radius:0px;
+}
+
+.form-control:hover,.form-control:visited,.form-control:focus{
+    border-color:#a1a1a1;
+    box-shadow:0 0 0 0.2rem rgba(241, 241, 241, 0.25);
+}
+
+.l-field{
+    min-height: 10vh;
+}
+
+.l-r-section{
+ background-color:#fbfbfb;   
+}
+
+a:link{
+    text-decoration: none;
+}
+.no-underline{
+    text-decoration:none; 
+}
+
+
+
+.required-field{
+    color:red;
+    font-weight: 600;
+}
+
+.error{
+    color:red;
+    font-size:12px;
+    line-height:13px;
+    padding:5px 2px;
+}
+
+
+.help-block{
+    color:red;
+    font-size:12px;
+    line-height:13px;
+    padding:5px 2px;
+}
+
