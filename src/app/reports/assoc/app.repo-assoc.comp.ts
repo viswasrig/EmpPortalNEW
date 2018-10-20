@@ -45,7 +45,7 @@ export class AppReportAssociatesComponent implements OnInit, OnChanges {
   buildColumns = () => {
     const column1 = this.appGridService.getColumn(0, 'Associate ID', 'ID', this.DATE_TYPES.STRING, true, true, '15%');
     const column2 = this.appGridService.getColumn(1, 'Associate Name', 'FullName', this.DATE_TYPES.STRING, true, true, '45%');
-    const column3 = this.appGridService.getColumn(2, 'Amount', 'Amount', this.DATE_TYPES.NUMBER, true, true, '15%');
+    const column3 = this.appGridService.getColumn(2, 'Balence', 'Balance', this.DATE_TYPES.NUMBER, true, true, '15%');
     const column4 = this.appGridService.getColumn(4, 'Action', 'action', this.DATE_TYPES.ACTION_BUTTONS, false, false, '15%');
     column4['buttons'] = this.getDefaultActionButtons();
     const columns = [column1, column2, column3, column4];

@@ -81,6 +81,8 @@ getInvoiceById = (id) => {
         if (resp['success']) {
             this.invoice =  resp['response'];
             this.invoice['qbinvNumber'] = this.invoice['altID'];
+            this.invoice['originalAmount'] = this.invoice['amount'];
+            this.invoice['amount'] = this.invoice['amount'] - this.invoice['deductions'];
             this.payTerm_ = this.invoice['paymentTerm'];
             this.invoiceTerm = this.invoice['invoiceTerm'];
         }
@@ -93,7 +95,7 @@ getInvoiceById = (id) => {
 getInvoiceObject = () => {
     return { type: 'Regular', invoiceDate: '', associativeName: '', cname: '', rate: undefined,
     assignmentID: '', associateID: '', comments: '', toDate: '', fromDate: '',
-    dueDate: '', qbinvNumber: undefined, deductions: undefined, amount: undefined, noOfUnits: '', unit: '',
+    dueDate: '', qbinvNumber: undefined, deductions: 0.0, amount: undefined, noOfUnits: '', unit: '',
     paymentMethod: '', recivedDate: '', receivedAmount: undefined, paymentRef: '' , isMultiClient: false,
     cnameS: '',
     };

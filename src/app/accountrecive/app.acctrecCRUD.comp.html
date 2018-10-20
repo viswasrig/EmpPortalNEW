@@ -360,7 +360,8 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                            <input type="hidden" name="ID" id="ID" [(ngModel)]="invoice.ID" #ID="ngModel" [(ngModel)]="invoice.ID" />
+                            <input type="hidden" name="ID" id="ID"  #ID="ngModel" [(ngModel)]="invoice.ID" />
+                            <input type="hidden" name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="invoice.associateID" />
                             <button type="button" (click)="invoiceRepaySubmit(invoiceRepayForm)" class="btn rounded-0 float-right mx-2" ngClass="{{invoiceRepayForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
                             <button type="button" class="btn btn-default rounded-0 float-right" (click)="invoiceCancel()">Cancel</button>
                         </div>
@@ -369,6 +370,27 @@
                 </div>
                 <div class="col-1"></div>
                
+            </div>
+            <div *ngIf="showAlert">
+                <div class="modal fade" ngClass="{{showAlert?'show':'hide'}}" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">{{alert.title}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModel()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{alert.msg}}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                <button type="button" class="btn btn-outline-secondary rounded-0" data-dismiss="modal" (click)="closeModel()">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

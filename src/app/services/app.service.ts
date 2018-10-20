@@ -289,9 +289,121 @@ export class AppService {
         return this.httpp.get(URL).toPromise();
     }
 
-    createRoleMap = (item) => {
-        const URL = this.BASE_URL + this.config.ADM_ASSIGN_INCOME;
+    createRoleAssociateMap = (item) => {
+        const URL = this.BASE_URL + this.config.CREATE_NEW_ROLE_ASSOCIATE_MAP;
         return this.httpp.post(URL, item, this.options).toPromise();
     }
 
+    addNewRole = (item) => {
+        const URL = this.BASE_URL + this.config.CREATE_NEW_ROLE;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    getRoleAssociateMapByID = (ID) => {
+        const URL = this.BASE_URL + this.config.EDIT_ROLE_ASSOCIATE_MAP;
+        const params = new HttpParams().set('ID', ID);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    updateRoleAssociateMap = (item) => {
+        const URL = this.BASE_URL + this.config.EDIT_ROLE_ASSOCIATE_MAP;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    deleteRoleAssociateMap = (item) => {
+        const URL = this.BASE_URL + this.config.DELETE_ROLE_ASSOCIATE_MAP;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    allResourcesMappedToRole = () => {
+        const URL = this.BASE_URL + this.config.ALL_RESOUCES_MAP_TO_ROLE;
+        return this.httpp.get(URL).toPromise();
+    }
+
+    getAllResources = () => {
+        const URL = this.BASE_URL + this.config.ALL_RESOURCES;
+        return this.httpp.get(URL).toPromise();
+    }
+
+    newResourceAdd = (item) => {
+        const URL = this.BASE_URL + this.config.NEW_RESOURCE;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    newRoleResourceAdd = (item) => {
+        const URL = this.BASE_URL + this.config.NEW_RESOURCE_ROLE;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+
+    getRoleResouceMapByID = (ID) => {
+        const URL = this.BASE_URL + this.config.EDIT_ROLE_RESOURCE_MAP;
+        const params = new HttpParams().set('ID', ID);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    updateRoleResouceMap = (item) => {
+        const URL = this.BASE_URL + this.config.EDIT_ROLE_RESOURCE_MAP;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    deleteRoleResouceMap = (item) => {
+        const URL = this.BASE_URL + this.config.DELETE_ROLE_RESOURCE_MAP;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    viewRoleAndAssociate = (item) => {
+        const URL = this.BASE_URL + this.config.VIEW_ROLE_ASSOCAITE_MAP;
+        const params = new HttpParams().set('RID', item['RID']);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    viewRoleAndResource = (item) => {
+        const URL = this.BASE_URL + this.config.VIEW_ROLE_RESOURCE_MAP;
+        const params = new HttpParams().set('RRID', item['RRID']);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    getAllExpensesByAssociateOnType = (type, tab) => {
+        let URL = this.BASE_URL + this.config.ALL_ASSOCIATE_EXPENSES;
+        if (tab === 'COMPANY_EXPENSES') {
+            URL = this.BASE_URL + this.config.ALL_COMPANY_EXPENSES;
+        }
+        const params = new HttpParams().set('type', type);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    getExpensesTransform = (item) => {
+        const URL = this.BASE_URL + this.config.ASSIGN_EXPENSE_TRANS;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    getAsgetAssociatesByTypeAndUserID = (type, userId) => {
+        const URL = this.BASE_URL + this.config.ALL_ASSOCIATES_BY_TYPE;
+        const params = new HttpParams().set('type', type).set('userId', userId);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    getAddressDetailsByUserId = (type, userId) => {
+        const URL = this.BASE_URL + this.config.ADDRESS_DETAILS_USERID;
+        const params = new HttpParams().set('type', type).set('userId', userId);
+        return this.httpp.get(URL, {params}).toPromise();
+     }
+
+     updateAddressDetails = (item) => {
+        const URL = this.BASE_URL + this.config.ADDRESS_DETAILS_USERID;
+        return this.httpp.post(URL, item, this.options).toPromise();
+    }
+
+    getPhoneAndEmailDetailsByUserID = (type, userId) => {
+        const URL = this.BASE_URL + this.config.ADDRESS_DETAILS_USERID;
+        const params = new HttpParams().set('type', type).set('userId', userId);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
+
+    getAllAssignmentByUserLogin = (userId) => {
+        const URL = this.BASE_URL + this.config.ALL_ASSIGNMENTS_BY_LOGIN;
+        const params = new HttpParams().set('userId', userId);
+        return this.httpp.get(URL, {params}).toPromise();
+    }
 }

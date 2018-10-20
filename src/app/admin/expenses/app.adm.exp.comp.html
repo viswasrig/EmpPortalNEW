@@ -1,0 +1,68 @@
+<div class="c-header">
+    <h3>{{title}}</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="nav-tab"  role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" ngClass="{{selectedTab === TABS.ASSOC_EXPENSES?' active':''}}" id="nav-assoc-exp-tab" data-toggle="tab" href="#nav-assoc-exp" role="tab" aria-controls="nav-assoc-exp" aria-selected="true" (click)="onTabChange(TABS.ASSOC_EXPENSES)">Associate Expenses</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  ngClass="{{selectedTab === TABS.COMPANY_EXPENSES?' active':''}}" id="nav-com-expenses-tab" data-toggle="tab" href="#nav-comp-exp" role="tab" aria-controls="nav-comp-exp" aria-selected="false" (click)="onTabChange(TABS.COMPANY_EXPENSES)">Company Expenses</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade " ngClass="{{selectedTab === TABS.ASSOC_EXPENSES?'show active':''}}"  id="nav-assoc-exp" role="tabpanel" aria-labelledby="nav-assoc-exp-tab" *ngIf="selectedTab === TABS.ASSOC_EXPENSES">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 margin-t-2">
+                            <label class="px-3">
+                                    <input type="radio" name="eType" id="eType1"  (change)="onTypeChange($event)" [(ngModel)]="eType" [value]="'A'" [checked]="eType === 'A'">
+                                    Active Expenses 
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 margin-t-2">
+                            <label class="px-3">
+                                <input type="radio" name="eType" id="eTyp2"  (change)="onTypeChange($event)" [(ngModel)]="eType" [value]="'D'" [checked]="eType === 'D'">
+                                    InActive Expenses
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 margin-t-2">
+                            <app-grid [options]="options" ></app-grid>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" ngClass="{{selectedTab === TABS.COMPANY_EXPENSES?'show active':''}}" id="nav-comp-exp" role="tabpanel" aria-labelledby="nav-com-expenses-tab" *ngIf="selectedTab === TABS.COMPANY_EXPENSES">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 margin-t-2">
+                                <label class="px-3">
+                                        <input type="radio" name="eType" id="eType1"  (change)="onTypeChange($event)" [(ngModel)]="eType" [value]="'A'" [checked]="eType === 'A'">
+                                        Active Expenses 
+                                </label>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-lg-3 col-xl-3 margin-t-2">
+                                <label class="px-3">
+                                    <input type="radio" name="eType" id="eTyp2"  (change)="onTypeChange($event)" [(ngModel)]="eType" [value]="'D'" [checked]="eType === 'D'">
+                                        InActive Expenses
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12 margin-t-2">
+                                <app-grid [options]="options" ></app-grid>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

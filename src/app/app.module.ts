@@ -47,6 +47,14 @@ import { AppAdminIncomeAssignmentComponent} from './admin/income/app.adm.income.
 import { AppAdminCompensationCRUDComponent } from './admin/compensation/app.adm.compensation.compCRUD';
 import { AppRoleAllotmentComponent } from './admin/roles/app.adm.roles.comp';
 import { AppRoleAssociateCRUDComponent } from './admin/roles/app.adm.roles.crud.comp';
+import { AppRoleResourceAllotmentComponent } from './admin/resources/app.admin.resource.comp';
+import { AppRoleResourceCRUDComponent } from './admin/resources/app.admin.resource.crud.comp';
+import { AppAdminEmployeeExpensesComponent } from './admin/expenses/app.adm.exp.comp';
+import { AppAdminExpenseCRUDComponent } from './admin/expenses/app.adm.exp.crud.comp';
+import { AppAssociateClientAssignmentComponent } from './associative/app.assoc.clinet.assign.comp';
+import { AppAssociatePersonalComponent } from './associative/app.assoc.personal.comp';
+import { AppAssociateStatementComponent } from './associative/app.assoc.stmt.comp';
+import { AppAssociateStatementDetailsComponent } from './associative/app.assoc.stmt.crud.comp';
 
 @NgModule({
   declarations: [
@@ -83,7 +91,15 @@ import { AppRoleAssociateCRUDComponent } from './admin/roles/app.adm.roles.crud.
     AppAdminIncomeAssignmentComponent,
     AppAdminCompensationCRUDComponent,
     AppRoleAllotmentComponent,
-    AppRoleAssociateCRUDComponent
+    AppRoleAssociateCRUDComponent,
+    AppRoleResourceAllotmentComponent,
+    AppRoleResourceCRUDComponent,
+    AppAdminEmployeeExpensesComponent,
+    AppAdminExpenseCRUDComponent,
+    AppAssociateClientAssignmentComponent,
+    AppAssociatePersonalComponent,
+    AppAssociateStatementComponent,
+    AppAssociateStatementDetailsComponent
   ],
   imports: [
     BrowserModule,

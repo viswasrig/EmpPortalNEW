@@ -8,12 +8,12 @@ import { AppGridService } from '../../services/app.grid.service';
 import * as _ from 'lodash';
 declare const toastr: any;
 @Component({
-    selector: 'app-adm-role-assign',
-    templateUrl: './app.adm.roles.comp.html',
-    styleUrls: [ './app.adm.roles.comp.scss']
+    selector: 'app-adm-resource-assign',
+    templateUrl: './app.admin.resource.comp.html',
+    styleUrls: [ './app.admin.resource.comp.scss']
 })
-export class AppRoleAllotmentComponent implements OnInit, OnChanges {
-    title = 'Role And Associate Mapping';
+export class AppRoleResourceAllotmentComponent implements OnInit, OnChanges {
+    title = 'Role & Resource Mapping';
     CRUD = APP_CONSTANTS.CRUD;
     RESPONSE_STATUS = APP_CONSTANTS.ALERT_TYPES;
     options = null;
@@ -33,46 +33,56 @@ export class AppRoleAllotmentComponent implements OnInit, OnChanges {
         const state = this.appRoutingService.getCurrentState();
         const options = this.appGridService.getTableOptions();
         options.pager = true;
-        options.pagination.pageSize = 50;
+        options.pagination.pageSize = 30;
         options.columns = this.buildColumns();
         this.options = options;
         this.user = this.appUserAuthService.getUser();
-        this.getAllAssociatedRoles();
+        this.getAllResourcesBasedOnRole();
     }
     ngOnChanges() {
 
     }
 
     buildColumns = () => {
-        const column1 = this.appGridService.getColumn(0, 'Role ID', 'ID', this.DATE_TYPES.NUMBER, true, true, '10%');
-        const column2 = this.appGridService.getColumn(1, 'Role Name', 'RoleDesc', this.DATE_TYPES.STRING, true, true, '15%');
-        const column3 = this.appGridService.getColumn(2, 'Associate Name', 'FullName', this.DATE_TYPES.STRING, true, true, '15%');
-        const column4 = this.appGridService.getColumn(3, 'Role Status', 'RoleAssociatedStatus', this.DATE_TYPES.STRING, false, false, '7%');
-        const column5 = this.appGridService.getColumn(4, 'Action', 'action', this.DATE_TYPES.ACTION_BUTTONS, false, false, '10%');
-        column5['buttons'] = this.getDefaultActionButtons();
-        const columns = [column1, column2, column3, column4, column5];
+        const column1 = this.appGridService.getColumn(0, 'ID', 'RRID', this.DATE_TYPES.NUMBER, true, true, '4%');
+        const column2 = this.appGridService.getColumn(1, 'Resource Name', 'ResourceName', this.DATE_TYPES.STRING, true, true, '5%');
+        const column3 = this.appGridService.getColumn(2, 'Resource Desc', 'ResorceDesc', this.DATE_TYPES.STRING, false, false, '18%');
+        const column4 = this.appGridService.getColumn(3, 'Role Name', 'RoleDesc', this.DATE_TYPES.STRING, true, true, '8%');
+        const column5 = this.appGridService.getColumn(4, 'Resource Status', 'ResourceRoleStatus',
+        this.DATE_TYPES.STRING, false, false, '7%');
+        const column6 = this.appGridService.getColumn(5, 'Created By', 'CreatedByName',
+        this.DATE_TYPES.STRING, false, true, '10%');
+        const column7 = this.appGridService.getColumn(6, 'Created Date', 'CreatedDate',
+        this.DATE_TYPES.STRING, false, false, '7%');
+        const column8 = this.appGridService.getColumn(7, 'Modified By', 'ModifiedByName',
+        this.DATE_TYPES.STRING, false, true, '10%');
+        const column9 = this.appGridService.getColumn(8, 'Modified Date', 'ModifiedDate',
+        this.DATE_TYPES.STRING, false, false, '7%');
+        const column10 = this.appGridService.getColumn(9, 'Action', 'action', this.DATE_TYPES.ACTION_BUTTONS, false, false, '9%');
+        column10['buttons'] = this.getDefaultActionButtons();
+        const columns = [column1, column2, column3, column4, column5, column6, column7, column8, column9, column10];
         return columns;
     }
 
     getDefaultActionButtons = () => {
         return [
             {
-                buttonType: 'LINK', title: 'View Role & Associate Mapping', actionType: this.CRUD.VIEW,
+                buttonType: 'LINK', title: 'View Role & Resource Mapping', actionType: this.CRUD.VIEW,
                 pClass: 'px-1', buttonClassName: 'fa fa-eye', onClick: this.onNavigateTo
             },
             {
-                buttonType: 'LINK', title: 'Edit Role & Associate Mapping', actionType: this.CRUD.EDIT, pClass: 'px-2',
+                buttonType: 'LINK', title: 'Edit Role & Resource Mapping', actionType: this.CRUD.EDIT, pClass: 'px-2',
                 buttonClassName: 'fa fa-pencil', onClick: this.onNavigateTo, visibleIf: 'return item.Status!="D"'
             },
             {
-                buttonType: 'LINK', title: 'Delete Role & Associate Mapping', actionType: this.CRUD.DELETE,
+                buttonType: 'LINK', title: 'Delete Role & Resource Mapping', actionType: this.CRUD.DELETE,
                 pClass: 'px-1', buttonClassName: 'fa fa-trash', onClick: this.onNavigateTo, visibleIf: 'return item.Status!="D"'
             }
         ];
     }
 
-    getAllAssociatedRoles = () => {
-        this.appService.getAllAssociatedRoles().then(resp => {
+    getAllResourcesBasedOnRole = () => {
+        this.appService.allResourcesMappedToRole().then(resp => {
             if (resp['success']) {
                const list = resp['response'];
                 const dataSource = _.cloneDeep(this.options.dataSource) || {data: [], viewData: []};
@@ -92,23 +102,23 @@ export class AppRoleAllotmentComponent implements OnInit, OnChanges {
 
     onNavigateTo = (param, item) => {
         if ( param === this.CRUD.DELETE) {
-            this.deleteRoleAssociateMap(item);
+            this.deleteRoleResourceMap(item);
         } else {
-            this.appRoutingService.navigateToURLParams('layout/adm-as-role-crud', {type: param, data: item});
+            this.appRoutingService.navigateToURLParams('layout/adm-res-crud', {type: param, data: item});
         }
     }
 
-    deleteRoleAssociateMap = (item) => {
-        const ID = item['RID'] || null;
+    deleteRoleResourceMap = (item) => {
+        const ID = item['RRID'] || null;
         item['userId'] = this.user.ID || '';
-        this.appService.deleteRoleAssociateMap(item).then(res => {
+        this.appService.deleteRoleResouceMap(item).then(res => {
             console.log(res);
             if ( res['success'] ) {
                 toastr.success( res['response'], null, {positionClass: 'toast-bottom-right'});
             } else {
                 toastr.error( res['response'], null, {positionClass: 'toast-bottom-right'});
             }
-            this.getAllAssociatedRoles();
+            this.getAllResourcesBasedOnRole();
         }).catch(ex => {
             console.log(ex);
         });

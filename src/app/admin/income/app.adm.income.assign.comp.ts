@@ -87,6 +87,7 @@ export class AppAdminIncomeAssignmentComponent implements OnInit, OnChanges {
         this.appService.assignIncome(item).then(resp => {
             if (resp['success']) {
                 toastr.success( resp['response'], null, {positionClass: 'toast-bottom-right'});
+                this.getAllPaidInvoices();
             } else {
                 alert(resp['response']);
             }

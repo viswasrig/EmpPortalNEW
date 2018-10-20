@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-12 my-3">
             <h5>{{subTitle}}
-                <a href="#" routerLink="/layout/adm-as-role" class="float-right">BACK</a>
+                <a href="#" routerLink="/layout/adm-role-res" class="float-right">BACK</a>
             </h5>
             <hr/>
         </div>
@@ -13,121 +13,137 @@
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10" *ngIf="operationType === CRUD.NEW || operationType === CRUD.EDIT">
-            <div *ngIf="roleMap.RoleID !== CRUD.NEW">
-                <form class="form adm-compen-form" appValidate #adminRoleMapNewForm="ngForm" novalidate>
+            <div *ngIf="roleResourceMap.ResourceID !== CRUD.NEW">
+                <form class="form adm-rr-form" appValidate #adminRoleResMapNewForm="ngForm" novalidate>
                     <div class="form-group row">
                         <label for="assoc" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
-                            <em class="required-field">*</em>Associae Name
+                            <em class="required-field">*</em>Role Name
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0" *ngIf="operationType === CRUD.NEW">
-                            <input class="form-control" type="text" value="" name="associateName" id="associateName" #associateName="ngModel" [(ngModel)]="roleMap.associateName"
-                                autocomplete="off" placeholder="Associate Name" data-efield="Associate Name" MaxLength="25" required
-                                (ngModelChange)="onAssociateNameChange($event)">
+                            <select class="custom-select form-control" id="RoleID" name="RoleID" #RoleID="ngModel" [(ngModel)]="roleResourceMap.RoleID"
+                               (ngModelChange)="onRoleChange()" data-efield="Role Map" required>
+                                <option value="" selected>-- Select --</option>
+                                <option *ngFor="let role of allAvailableRoles" [value]="role.ID">{{role.RoleDesc}}</option>
+                            </select>
                             <div class="error"></div>
-                            <div id="associateList" class="autocomplete" *ngIf="associatesList && associatesList.length >0 ">
-                                <ul class="autocomplete-items">
-                                    <li *ngFor="let associative of associatesList;let idx=index;">
-                                        <a href="javascript:void(0)" (click)="selectAssociativeId(associative)">{{associative.FirstName + ' ' + associative.LastName}}</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0" *ngIf="operationType === CRUD.EDIT">
-                                <input class="form-control" type="text" value="" name="associateName" id="associateName" #associateName="ngModel" [(ngModel)]="roleMap.associateName"
-                                autocomplete="off" placeholder="Associate Name" data-efield="Associate Name" MaxLength="25" required readonly="true">
+                            <select class="custom-select form-control" id="RoleID" name="RoleID" #RoleID="ngModel" [(ngModel)]="roleResourceMap.RoleID"
+                                data-efield="Role Map" required readonly="true">
+                                <option value="" selected>-- Select --</option>
+                                <option *ngFor="let role of allAvailableRoles" [value]="role.ID">{{role.RoleDesc}}</option>
+                            </select>
+                            <div class="error"></div>
                         </div>
                         <label for="RoleSelect" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
-                            <em class="required-field">*</em>Select Role
+                            <em class="required-field">*</em>Select Resource
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
-                            <select class="custom-select form-control" id="RoleID" name="RoleID" #RoleID="ngModel" [(ngModel)]="roleMap.RoleID" (ngModelChange)="onRoleIDChange(roleMap.RoleID)"
-                                data-efield="Role Map" required>
+                            <select class="custom-select form-control" id="ResourceID" name="ResourceID" #ResourceID="ngModel" [(ngModel)]="roleResourceMap.ResourceID" (ngModelChange)="onResourceChange(roleResourceMap.ResourceID)"
+                                data-efield="Resource Map" required>
                                 <option value="" selected>-- Select --</option>
-                                <option *ngFor="let role of allAvailableRoles" [value]="role.ID">{{role.RoleDesc}}</option>
-                                <option value="NEW">Add New Role</option>
+                                <option *ngFor="let resource of allAvailableResources" [value]="resource.ID">{{resource.ResourceName}}</option>
+                                <option value="NEW">Add New Resource</option>
                             </select>
                             <div class="error"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                            <input type="hidden" name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="roleMap.associateID" />
-                            <input type="hidden" name="RID" id="RID" #RID="ngModel" [(ngModel)]="roleMap.RID" />
-                            <button type="button" (click)="roleAssociateMapSubmit(adminRoleMapNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleMapNewForm.valid?'btn-primary':'btn-default disabled'}}" *ngIf="operationType ===CRUD.NEW">Add Associate Role Mapping </button>
-                            <button type="button" (click)="updateRoleAssociate(adminRoleMapNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleMapNewForm.valid?'btn-primary':'btn-default disabled'}}" *ngIf="operationType ===CRUD.EDIT" >Update Associate Role Mapping </button>
-                            <button type="button" class="btn btn-default rounded-0 float-right" (click)="roleMapCancel()">Cancel</button>
+                            <input type="hidden" name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="roleResourceMap.associateID" />
+                            <input type="hidden" name="RRID" id="RRID" #RRID="ngModel" [(ngModel)]="roleResourceMap.RRID" />
+                            <button type="button" (click)="roleResourceMapSubmit(adminRoleResMapNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleResMapNewForm.valid?'btn-primary':'btn-default disabled'}}"
+                                *ngIf="operationType ===CRUD.NEW">Add Role Resource Mapping </button>
+                            <button type="button" (click)="updateRoleResource(adminRoleResMapNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleResMapNewForm.valid?'btn-primary':'btn-default disabled'}}"
+                                *ngIf="operationType ===CRUD.EDIT">Update Role Resource Mapping </button>
+                            <button type="button" class="btn btn-default rounded-0 float-right" (click)="resourceMapCancel()">Cancel</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div *ngIf="roleMap.RoleID === CRUD.NEW">
-                <form class="form adm-compen-form" appValidate #adminRoleNewForm="ngForm" novalidate>
+            <div *ngIf="roleResourceMap.ResourceID === CRUD.NEW">
+                <form class="form adm-rr-form" appValidate #adminRoleRRNewForm="ngForm" novalidate>
                     <div class="form-group row">
                         <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
-                            <em class="required-field">*</em>Role Name
+                            <em class="required-field">*</em>Resource Name
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
-                            <input class="form-control" type="text" value="" name="RoleName" id="RoleName" #RoleName="ngModel" [(ngModel)]="roleMap.RoleName"
-                                pattern="^[a-zA-Z_]*$" autocomplete="off" placeholder="Role Name" data-efield="Role NAME" MaxLength="25"
+                            <input class="form-control" type="text" value="" name="ResourceName" id="ResourceName" #ResourceName="ngModel" [(ngModel)]="roleResourceMap.ResourceName"
+                                pattern="^[a-zA-Z_]*$" autocomplete="off" placeholder="Resource Name" data-efield="Resource NAME" MaxLength="25"
                                 required>
                             <div class="error"></div>
                         </div>
                         <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
-                            <em class="required-field">*</em>Role Description
+                            <em class="required-field">*</em>Resource Description
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
-                            <input class="form-control" type="text" value="" name="RoleDesc" id="RoleDesc" #RoleDesc="ngModel" [(ngModel)]="roleMap.RoleDesc"
-                                autocomplete="off" placeholder="Role Desc" data-efield="Role Desc" MaxLength="125" required>
+                            <input class="form-control" type="text" value="" name="ResourceDesc" id="ResourceDesc" #ResourceDesc="ngModel" [(ngModel)]="roleResourceMap.ResourceDesc"
+                                autocomplete="off" placeholder="Resource Desc" data-efield="Resource Desc" MaxLength="125" required>
                             <div class="error"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
-                            <input type="hidden" name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="roleMap.associateID" />
-                            <button type="button" (click)="newRoleFormSubmit(adminRoleNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleNewForm.valid?'btn-primary':'btn-default disabled'}}">Add New Role</button>
-                            <button type="button" class="btn btn-default rounded-0 float-right" (click)="roleMapCancel()">Cancel</button>
+                            <input type="hidden" name="associateID" id="associateID" #associateID="ngModel" [(ngModel)]="roleResourceMap.associateID" />
+                            <button type="button" (click)="newResourceFormSubmit(adminRoleRRNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{adminRoleRRNewForm.valid?'btn-primary':'btn-default disabled'}}">Add New Resource</button>
+                            <button type="button" class="btn btn-default rounded-0 float-right" (click)="resourceMapCancel()">Cancel</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <!-- <div class="col-md-10" *ngIf="operationType === CRUD.EDIT"></div> -->
         <div class="col-md-10" *ngIf="operationType === CRUD.VIEW">
-            <form class="form adm-role-view" appValidate #adminRoleAssViewForm="ngForm" novalidate>
+           <form class="form adm-role-view" appValidate #adminRoleAssViewForm="ngForm" novalidate>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                        Resource Name
+                        <span class="pl-2">:</span>
+                    </label>
+                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
+                        {{roleResourceMap.ResourceName}}
+                    </div>
+                    <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                        Resource Description
+                        <span class="pl-2">:</span>
+                    </label>
+                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
+                            {{roleResourceMap.ResorceDesc}}
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
                         Role Name
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                        {{roleMap.RoleName}}
+                        {{roleResourceMap.RoleName}}
                     </div>
                     <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
                         Role Description
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                            {{roleMap.RoleDesc}}
+                            {{roleResourceMap.RoleDesc}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
-                        Associate Name
-                        <span class="pl-2">:</span>
-                    </label>
-                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                        {{roleMap.AssociateName}}
-                    </div>
                     <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
                         Status
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                        {{roleMap.RoleAssociateStatus}}
+                        {{roleResourceMap.ResourceRoleStatus}}
+                    </div>
+                    <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                        Created By
+                        <span class="pl-2">:</span>
+                    </label>
+                    <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
+                            {{roleResourceMap.CreatedByName}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -136,14 +152,14 @@
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                        {{roleMap.CreatedByName}}
+                        {{roleResourceMap.CreatedByName}}
                     </div>
                     <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
                         Created Date
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                            {{roleMap.CreatedDate}}
+                            {{roleResourceMap.CreatedDate}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -152,14 +168,14 @@
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                        {{roleMap.ModifiedByName}}
+                        {{roleResourceMap.ModifiedByName}}
                     </div>
                     <label class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
                         Modified Date
                         <span class="pl-2">:</span>
                     </label>
                     <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-2">
-                            {{roleMap.ModifiedDate}}
+                            {{roleResourceMap.ModifiedDate}}
                     </div>
                 </div>
             </form>
@@ -177,7 +193,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h6>{{alert.msg}}</h6>
+                        <p>{{alert.msg}}</p>
                     </div>
                     <div class="modal-footer">
                         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->

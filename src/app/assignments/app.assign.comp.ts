@@ -129,7 +129,8 @@ export class AppAssignmentComponent implements OnInit, OnChanges, AfterViewInit 
             } else {
                 toastr.error(resp['response'], null, { positionClass: 'toast-bottom-right' });
             }
-            this.appRoutingService.reloadSamePage('layout/assign');
+            this.getAllAssignments();
+            // this.appRoutingService.reloadSamePage('layout/assign');
         }).catch(ex => {
             console.log('Exception due to delete of invoice', ex);
         });

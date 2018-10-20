@@ -326,5 +326,23 @@ a[data-toggle="collapse"] {
             background-color: #1e80e2;
             box-shadow: #1e80e2;
         }
+        .active{
+            background-color: #1e80e2;
+            box-shadow: #1e80e2;
+        }
     }
+
+    a.nav-link.active{
+        background-color: #03488e;
+        box-shadow: #03488e;
+    }
+
+}
+
+.show{
+    display: block;
+}
+
+.hide{
+    display: none;
 }

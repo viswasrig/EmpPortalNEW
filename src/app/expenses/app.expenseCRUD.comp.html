@@ -92,16 +92,16 @@
                                     </select>
                                     <div class="error"></div>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
-                                    <label class="float-right">
-                                        <input type="radio" name="ref" id="rCompany"  (change)="onRefChange($event)" [(ngModel)]="expense.ref" [value]="'rCompany'" [checked]="expense.ref === 'rCompany'">
-                                        Company
-                                    </label>
-                                </div>
                                 <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
-                                    <label>
+                                    <label class="float-right">
                                         <input type="radio" name="ref" id="rIndividual"  (change)="onRefChange($event)" [(ngModel)]="expense.ref" [value]="'rIndividual'" [checked]="expense.ref === 'rIndividual'">
                                         Individual
+                                    </label>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3">
+                                    <label>
+                                        <input type="radio" name="ref" id="rCompany"  (change)="onRefChange($event)" [(ngModel)]="expense.ref" [value]="'rCompany'" [checked]="expense.ref === 'rCompany'">
+                                        Company
                                     </label>
                                 </div>
                             </div>
@@ -150,6 +150,7 @@
                                 <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
                                         <input type="hidden" name="associateID" id="associateID" [(ngModel)]="expense.associateID" #associateID="ngModel"  />
                                         <input type="hidden" name="ID" id="ID" [(ngModel)]="expense.ID" #ID="ngModel"  />
+                                        <input type="hidden" name="originalAmount" id="originalAmount" [(ngModel)]="expense.originalAmount" #originalAmount="ngModel"  />
                                     <button type="button" (click)="expenseNewSubmit(expenseNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{expenseNewForm.valid?'btn-primary':'btn-default disabled'}}">Submit</button>
                                     <button type="button" class="btn btn-default rounded-0 float-right" (click)="expenseCancel()">Cancel</button>
                                 </div>

@@ -1,25 +1,25 @@
 import { Component, isDevMode, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppService } from '../services/app.service';
-import { AppUserAuthService } from '../services/app.userAuth.service';
+import { AppService } from '../../services/app.service';
+import { AppUserAuthService } from '../../services/app.userAuth.service';
 import { NgForm } from '@angular/forms';
 import * as _ from 'lodash';
-import { AppRoutingService } from '../services/app.routing.service';
-import { APP_CONSTANTS } from '../services/app.constants';
-import { AppLoaderService } from '../services/app.loader.service';
-import { AppGridService } from '../services/app.grid.service';
+import { AppRoutingService } from '../../services/app.routing.service';
+import { APP_CONSTANTS } from '../../services/app.constants';
+import { AppLoaderService } from '../../services/app.loader.service';
+import { AppGridService } from '../../services/app.grid.service';
 import * as moment from 'moment';
 declare const utils: any;
 declare const toastr: any;
 
 
 @Component({
-    selector: 'app-inv-crud',
-    templateUrl: './app.expenseCRUD.comp.html',
-    styleUrls: ['./app.expenses.comp.scss']
+    selector: 'app-adm-exp-crud',
+    templateUrl: './app.adm.exp.crud.comp.html',
+    styleUrls: ['./app.adm.exp.comp.scss']
 })
-export class AppExpenseCRUDComponent implements OnInit, OnChanges {
-    title = 'Expenses';
+export class AppAdminExpenseCRUDComponent implements OnInit, OnChanges {
+    title = 'Expense Details';
     subTitle = 'Create New Expense';
     private user = null;
     expense = {
@@ -127,7 +127,7 @@ export class AppExpenseCRUDComponent implements OnInit, OnChanges {
     }
 
     expenseCancel = () => {
-        this.router.navigate(['/layout/exp']);
+        this.router.navigate(['/layout/adm-expenses']);
     }
 
     onAssociativeNameChange = (inputData) => {
@@ -162,7 +162,7 @@ export class AppExpenseCRUDComponent implements OnInit, OnChanges {
                     toastr.error(resp['response'], null, { positionClass: 'toast-bottom-right' });
                 }
                 if (resp && resp['success']) {
-                    this.router.navigate(['/layout/exp']);
+                    this.router.navigate(['/layout/adm-expenses']);
                 }
             }).catch(ex => {
                 console.log('Exception Caught on Adding Expense', ex);

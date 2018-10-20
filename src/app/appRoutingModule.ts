@@ -29,6 +29,15 @@ import { AppAdminIncomeAssignmentComponent} from './admin/income/app.adm.income.
 import { AppAdminCompensationCRUDComponent } from './admin/compensation/app.adm.compensation.compCRUD';
 import { AppRoleAllotmentComponent } from './admin/roles/app.adm.roles.comp';
 import { AppRoleAssociateCRUDComponent } from './admin/roles/app.adm.roles.crud.comp';
+import { AppRoleResourceAllotmentComponent } from './admin/resources/app.admin.resource.comp';
+import { AppRoleResourceCRUDComponent } from './admin/resources/app.admin.resource.crud.comp';
+import { AppAdminEmployeeExpensesComponent } from './admin/expenses/app.adm.exp.comp';
+import { AppAdminExpenseCRUDComponent } from './admin/expenses/app.adm.exp.crud.comp';
+import { AppAssociateClientAssignmentComponent } from './associative/app.assoc.clinet.assign.comp';
+import { AppAssociatePersonalComponent } from './associative/app.assoc.personal.comp';
+import { AppAssociateStatementComponent } from './associative/app.assoc.stmt.comp';
+import { AppAssociateStatementDetailsComponent } from './associative/app.assoc.stmt.crud.comp';
+
 
 declare const utils: any;
 const appRoutes: Routes = [
@@ -62,6 +71,14 @@ const appRoutes: Routes = [
         {path: 'adm-compCRUD', component: AppAdminCompensationCRUDComponent},
         {path: 'adm-as-role', component: AppRoleAllotmentComponent},
         {path: 'adm-as-role-crud', component: AppRoleAssociateCRUDComponent},
+        {path: 'adm-role-res', component: AppRoleResourceAllotmentComponent},
+        {path: 'adm-res-crud', component: AppRoleResourceCRUDComponent},
+        {path: 'adm-expenses', component: AppAdminEmployeeExpensesComponent},
+        {path: 'adm-exp-crud', component: AppAdminExpenseCRUDComponent},
+        {path: 'assoc-pro', component: AppAssociateClientAssignmentComponent},
+        {path: 'assoc-per', component: AppAssociatePersonalComponent},
+        {path: 'assoc-stmt', component: AppAssociateStatementComponent},
+        {path: 'assoc-stmt-details', component: AppAssociateStatementDetailsComponent},
         {path: '**', redirectTo: '/404'}
     ]}
 ];

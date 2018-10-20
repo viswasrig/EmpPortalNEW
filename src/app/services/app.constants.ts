@@ -24,9 +24,13 @@ const _appConstants = {
         ACCT_INV_RECIEVE: 'ACCT_INV_RECIEVE',
         ADMIN_COMPEN: 'ADMIN_COMPEN',
         ADMIN_INCOME_ASSIGN: 'ADMIN_INCOME_ASSIGN',
+        ADMIN_EXPENSES: 'ADMIN_EXPENSES',
         HOME: 'HOME',
         ROLE_ALLOCATE: 'ROLE_ALLOCATE',
-        RESOURCE_ALLOCATE: 'RESOURCE_ALLOCATE'
+        RESOURCE_ALLOCATE: 'RESOURCE_ALLOCATE',
+        SDTL: 'SDTL',
+        PDTL: 'PDTL',
+        ADTL: 'ADTL'
     },
     RESOURCES: {
         DASH: 'Dashboard',
@@ -40,7 +44,11 @@ const _appConstants = {
         ACCT_RECEIVE: 'Account Receivable',
         ADMIN_COMPEN: 'Compensation',
         ADMIN_INCOME_ASSIGN: 'Income Assignment',
+        ADMIN_EXPENSES: 'Exployee Expenses',
         HOME: 'Home',
+        SDTL: 'Statement',
+        PDTL: 'Personal Details',
+        ADTL: 'Project Details'
     },
     CONFIG: {
         BASE_URL: 'http://www.e3globalinc.com/EmpPortalNew/',
@@ -87,9 +95,25 @@ const _appConstants = {
         VIEW_COMPENSATION: 'api/compensations/viewCompensation.php',
         ALL_PAID_INVOICES: 'api/invoices/allPaidInvoices.php',
         ADM_ASSIGN_INCOME: 'api/income/assignIncome.php',
-        ADM_ALL_ROLES_ASSOCIATED: 'api/roleandresources/allRoles.php',
-        ALL_ROLES: 'api/roleandresources/allAvailableRoles.php'
-
+        ADM_ALL_ROLES_ASSOCIATED: 'api/roleandResources/allRoles.php',
+        ALL_ROLES: 'api/roleandResources/allAvailableRoles.php',
+        CREATE_NEW_ROLE: 'api/roleandResources/createRole.php',
+        CREATE_NEW_ROLE_ASSOCIATE_MAP: 'api/roleandResources/createRoleMap.php',
+        EDIT_ROLE_ASSOCIATE_MAP: 'api/roleandResources/updateRoleAndAssociateMap.php',
+        DELETE_ROLE_ASSOCIATE_MAP: 'api/roleandResources/deleteRoleAndAssociateMap.php',
+        ALL_RESOUCES_MAP_TO_ROLE: 'api/roleandResources/allResourcesMapToRole.php',
+        ALL_RESOURCES: 'api/roleandResources/allAvailableResources.php',
+        NEW_RESOURCE: 'api/roleandResources/createResource.php',
+        NEW_RESOURCE_ROLE: 'api/roleandResources/createRoleAndResourceMap.php',
+        EDIT_ROLE_RESOURCE_MAP: 'api/roleandResources/updateRoleAndResourceMap.php',
+        DELETE_ROLE_RESOURCE_MAP: 'api/roleandResources/deleteRoleAndResourceMap.php',
+        VIEW_ROLE_ASSOCAITE_MAP: 'api/roleandResources/viewRoleAndAssociateMap.php',
+        VIEW_ROLE_RESOURCE_MAP: 'api/roleandResources/viewRoleAndResourceMap.php',
+        ALL_ASSOCIATE_EXPENSES: 'api/expenses/allAssociateExpensesByType.php',
+        ALL_COMPANY_EXPENSES: 'api/expenses/allCompanyExpensesByType.php',
+        ASSIGN_EXPENSE_TRANS: 'api/expenses/expenseTransform.php',
+        ADDRESS_DETAILS_USERID: 'api/associates/associateFullDetails.php',
+        ALL_ASSIGNMENTS_BY_LOGIN: 'api/assignments/allAssignmentByLogin.php'
 
     },
     ROUTE: {

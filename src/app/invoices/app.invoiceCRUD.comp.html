@@ -531,8 +531,8 @@
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
-                            <input appDate class="form-control app-date" type="text" value="" name="dueDate" id="dueDate" #dueDate="ngModel" [(ngModel)]="invoice.dueDate" autocomplete="off"
-                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date" [inputValue]="invoice.dueDate" readonly="true">
+                            <input class="form-control app-date" type="text" value="" name="dueDate" id="dueDate" #dueDate="ngModel" [(ngModel)]="invoice.dueDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="Due Date"  disabled="true">
                             <div class="error"></div>
                         </div>
                     </div>
@@ -542,8 +542,8 @@
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-3 p-0">
-                            <input appDate class="form-control app-date" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
-                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="From Date" [inputValue]="invoice.fromDate" readonly="true" disabled="true">
+                            <input  class="form-control app-date" type="text" value="" name="fromDate" id="fromDate" #fromDate="ngModel" [(ngModel)]="invoice.fromDate"
+                                autocomplete="off" placeholder="MM/dd/YYYY" MaxLength="10" data-efield="From Date" disabled="true">
                             <div class="error"></div>
                         </div>
                         <label for="toDate" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
@@ -551,8 +551,8 @@
                             <span class="pl-2">:</span>
                         </label>
                         <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-lg-2 col-lg-3 p-0">
-                            <input appDate class="form-control app-date" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate" autocomplete="off"
-                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" [inputValue]="invoice.toDate" readonly="true">
+                            <input  class="form-control app-date" type="text" value="" name="toDate" id="toDate" #toDate="ngModel" [(ngModel)]="invoice.toDate" autocomplete="off"
+                                placeholder="MM/dd/YYYY" MaxLength="10" data-efield="To Date" disabled="true">
                             <div class="error"></div>
                         </div>
                     </div>

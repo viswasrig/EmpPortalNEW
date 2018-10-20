@@ -1,0 +1,448 @@
+<div class="right-pannel">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+                <div class="card m-3 rounded-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Personel Details</h5>
+                                <hr/>
+                                <h5>
+                                    <a href="javascript:void(0)" title="{{isPersonEditEnabled()?'Back to Personal Details':'Edit Personal Details'}}" class="float-right" (click)="enablePersonEdit()">
+                                        <span class="fa  px-1" ngClass="{{isPersonEditEnabled()?'fa-undo':'fa-pencil'}}"></span>
+                                    </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!isPersonEditEnabled()">
+                            <div class="col-md-10">
+                                <form class="form assoc-p-form" #assocPNewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">First Name</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.firstName}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Middle Name</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.middleName}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Last Name</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.lastName}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Date of Birth</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.dateOfBirth}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">SSN</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.ssn}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Employer Name </span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.employerName}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Date of Joining </span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.dateOfJoining}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Date of Leaving  </span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.dateOfleaving || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Associate Type </span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.associateType}}</span></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="row" *ngIf="isPersonEditEnabled()">
+                            <div class="col-md-10">
+                                <form class="form assoc-p-form" appValidate #assocPNewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label for="firstName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em>First Name
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="firstName" id="firstName" #firstName="ngModel" [(ngModel)]="assoc.firstName"
+                                                autocomplete="off" placeholder="First Name" MaxLength="25" data-efield="First name"
+                                                required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            Middle Name
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="middleName" id="middleName" #middleName="ngModel" [(ngModel)]="assoc.middleName"
+                                                autocomplete="off" placeholder="Middle Name" data-efield="Middle Name" MaxLength="25">
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="lastName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em>Last Name
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="lastName" id="lastName" #lastName="ngModel" [(ngModel)]="assoc.lastName"
+                                                autocomplete="off" placeholder="Last Name" MaxLength="25" data-efield="Last name"
+                                                required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Date of Birth
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input appDate class="form-control app-date" type="text" value="" name="dateOfBirth" id="dateOfBirth" #dateOfBirth="ngModel"
+                                                [(ngModel)]="assoc.dateOfBirth" autocomplete="off" placeholder="MM/DD/YYYY" data-efield="Date of birth"
+                                                MaxLength="10" [inputValue]="assoc.dateOfBirth" [dOptions]="dateOptions" required>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="ssn" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em>SSN
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="ssn" id="ssn" #ssn="ngModel" [(ngModel)]="assoc.ssn" autocomplete="off"
+                                                placeholder="xxx-xx-xxxx" MaxLength="11" data-efield="SSN" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Employer Name
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <select class="custom-select form-control" id="employerName" name="employerName" #employerName="ngModel" [(ngModel)]="assoc.employerName"
+                                                data-efield="Employer Name" required>
+                                                <option value="" [value]="''">-- Select --</option>
+                                                <option value="E3 Global Inc" [value]="'E3 Global Inc'">E3 Global Inc</option>
+                                                <option value="MSKV Technologies" [value]="'MSKV Technologies'">MSKV Technologies</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="dateOfJoining" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Date of Joining
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input appDate class="form-control app-date" type="text" value="" name="dateOfJoining" id="dateOfJoining" #dateOfJoining="ngModel" [(ngModel)]="assoc.dateOfJoining"
+                                                autocomplete="off" placeholder="MM/DD/YYYY" MaxLength="10" data-efield="Date of Joining" [inputValue]="assoc.dateOfJoining" required [dOptions]="dateOptions">
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="middleName" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                                <em class="required-field">*</em>Associate Type
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <select class="custom-select form-control" id="associateType" name="associateType" #associateType="ngModel" [(ngModel)]="assoc.associateType"
+                                                data-efield="Associative Type" required>
+                                                <option value="" [value]="''">-- Select --</option>
+                                                <option value="level1" [value]="'level1'">level1</option>
+                                                <option value="level2" [value]="'level2'">level2</option>
+                                                <option value="level3" [value]="'level3'">level3</option>
+                                                <option value="level4" [value]="'level4'">level4</option>
+                                                <option value="level5" [value]="'level5'">level5</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="dateOfLeaving" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            Date of Leaving
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input appDate class="form-control app-date" type="text" value="" name="dateOfLeaving" id="dateOfLeaving" #dateOfLeaving="ngModel" [(ngModel)]="assoc.dateOfLeaving"
+                                                autocomplete="off" placeholder="MM/DD/YYYY" MaxLength="10" data-efield="Date of Leaving" [inputValue]="assoc.dateOfLeaving" >
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row " *ngIf="assocPNewForm.valid">
+                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                            <button type="button" (click)="assocPNewFormSubmit(assocPNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{assocPNewForm.valid?'btn-primary':'btn-default disabled'}}">Update</button>
+                                            <!--<button type="button" class="btn btn-default rounded-0 float-right" (click)="associateCancel()">Cancel</button> -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mt-5">
+                                <button type="button" (click)="enableSection(PCONST.CHANGE_PWD)" class="btn rounded-0 shadow-md-1 btn-primary float-right"> Update Security Key</button>
+                                <button type="button" (click)="enableSection(PCONST.PHONE_EMAIL)" class="btn rounded-0 shadow-md-1 btn-primary float-right mx-2"> Add Or Update Email/Phone</button>
+                                <button type="button" (click)="enableSection(PCONST.CONTACT)" class="btn rounded-0 shadow-md-1 btn-primary float-right"> Add Or Update Contact Info</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="card rounded-0 mx-3" *ngIf="contack_Key === PCONST.CONTACT">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Contact Information</h5>
+                                <hr/>
+                                <h5>
+                                    <a href="javascript:void(0)" title="{{isContactInfoEditEnabled()?'Back to Contact Details':'Edit Contact Details'}}" class="float-right" (click)="enableContactInfoEdit()">
+                                            <span class="fa  px-1" ngClass="{{isContactInfoEditEnabled()?'fa-undo':'fa-pencil'}}"></span>
+                                        </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!isContactInfoEditEnabled()">
+                            <div class="col-md-10 col-sm-10 col-lg-10">
+                                <form class="form assoc-p-form" #assocCNewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Address 1</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.address1 || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Address 2</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.address2 || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">City</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.city || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">State</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.state || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">ZIP</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.zip || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Country</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.country || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Type Of Associate</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.typeOfEntity && DEF_TYPES[assoc.typeOfEntity] || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Address Type  </span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.addressType && DEF_TYPES[assoc.addressType] || 'NA'}}</span></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                        <div class="row" *ngIf="isContactInfoEditEnabled()">
+                            <div class="col-md-10">
+                                <form class="form assoc-p-form" appValidate #assocCNewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Address 1
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="address1" id="address1" #address1="ngModel" [(ngModel)]="assoc.address1"
+                                                autocomplete="off" placeholder="Primary Address" data-efield="Address" MaxLength="50" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="password" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            Adress 2
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="address2" id="address2" #address2="ngModel" [(ngModel)]="assoc.address2"
+                                                autocomplete="off" placeholder="" data-efield="Address optional" MaxLength="50">
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="City" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> City
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="city" id="city" #city="ngModel" [(ngModel)]="assoc.city"
+                                                autocomplete="off" placeholder="City" data-efield="City" MaxLength="25" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="password" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> State
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="state" id="state" #state="ngModel" [(ngModel)]="assoc.state"
+                                                autocomplete="off" placeholder="State" data-efield="State" MaxLength="50"
+                                                required>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="country" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Country
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="country" id="country" #country="ngModel" [(ngModel)]="assoc.country"
+                                                autocomplete="off" placeholder="country" data-efield="Country" MaxLength="10" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="zip" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Zip
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="text" value="" name="zip" id="zip" #zip="ngModel" [(ngModel)]="assoc.zip"
+                                                autocomplete="off" placeholder="zip" data-efield="zip" MaxLength="10" required>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="country" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Entity Type
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <select class="custom-select form-control" id="typeOfEntity" name="typeOfEntity" #typeOfEntity="ngModel" [(ngModel)]="assoc.typeOfEntity"
+                                                data-efield="Entity Type" required>
+                                                <option value="" [value]="''">-- Select --</option>
+                                                <option value="associate" [value]="'associate'">Employee</option>
+                                                <option value="client" [value]="'client'">Client</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="zip" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Address Type
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <select class="custom-select form-control" id="addressType" name="addressType" #addressType="ngModel" [(ngModel)]="assoc.addressType"
+                                                data-efield="Address Type" required>
+                                                <option value="" [value]="''">-- Select --</option>
+                                                <option value="current" [value]="'current'">Primary</option>
+                                                <option value="old" [value]="'old'">Secondary</option>
+                                            </select>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row " *ngIf="assocCNewForm.valid">
+                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                            <button type="button" (click)="updateAddressDetails(assocCNewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{assocCNewForm.valid?'btn-primary':'btn-default disabled'}}">Update</button>
+                                            <!--<button type="button" class="btn btn-default rounded-0 float-right" (click)="associateCancel()">Cancel</button> -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card rounded-0 m-3" *ngIf="PE_Key === PCONST.PHONE_EMAIL">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Phone & Email</h5>
+                                <hr/>
+                                <h5>
+                                    <a href="javascript:void(0)" title="{{isPhoneEmailEditabled()?'Back to Email Or Phone Details':'Edit Email Or Phone Details'}}" class="float-right" (click)="enableEmailPhoneEditable()">
+                                        <span class="fa  px-1" ngClass="{{isPhoneEmailEditabled()?'fa-undo':'fa-pencil'}}"></span>
+                                    </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!isPhoneEmailEditabled()">
+                            <div class="col-md-12">
+                                <form class="form assoc-pe-form" #assocPENewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Contact Number</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.phone || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Primary Email ID</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.email || 'NA'}}</span></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-2 col-sm-2 col-lg-2 text-left"><span class="h6">Secondary Email ID</span></label>
+                                        <div class="col-md-3 col-sm-3 col-lg-3 text-left"><span class="px-2">:</span><span class="h6">{{assoc.email1 || 'NA'}}</span></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="isPhoneEmailEditabled()">
+                            <div class="col-md-12">
+                                <form class="form assoc-pe-form" appValidate #assocPENewForm="ngForm" novalidate>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                            <label for="mobileNumber">Contact<em class="required-field">*</em></label>
+                                            <input class="form-control" type="text" value="" name="phone" id="phone" #phone="ngModel" [(ngModel)]="assoc.phone" autocomplete="off" MaxLength="10" data-efield="Contact Number" placeholder="Contact Number (Ex: xxxxxxxxxx)" pattern="^(\+\d{1,3}[- ]?)?\d{10}$" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-6 col-lg-6 col-xl-6 mb-0">
+                                            <label for="userid">Email<em class="required-field">*</em></label>
+                                            <input class="form-control" type="email" value="" name="email" id="email" #email="ngModel" [(ngModel)]="assoc.email" autocomplete="off" placeholder="Email" MaxLength="50" data-efield="Email" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" required>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row " *ngIf="assocPENewForm.valid">
+                                        <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12">
+                                            <button type="button" (click)="updateEmailAndPhoneDetails(assocPENewForm)" class="btn rounded-0 float-right mx-2" ngClass="{{assocPENewForm.valid?'btn-primary':'btn-default disabled'}}">Update</button>
+                                            <!--<button type="button" class="btn btn-default rounded-0 float-right" (click)="associateCancel()">Cancel</button> -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card rounded-0 m-3" *ngIf="security_Key === PCONST.CHANGE_PWD">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Change password</h5>
+                                <hr/>
+                                <h5>
+                                    <a href="javascript:void(0)" title="{{isSecurityKeyEditabled()?'Back to Email Or Phone Details':'Edit Email Or Phone Details'}}" class="float-right" (click)="enableSecurityKeyEditable()">
+                                            <span class="fa  px-1" ngClass="{{isSecurityKeyEditabled()?'fa-undo':'fa-pencil'}}"></span>
+                                    </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <form class="form assoc-p-form" #assocPNewForm="ngForm" novalidate>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Password
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="password" value="" name="password" id="password" #password="ngModel" [(ngModel)]="assoc.password"
+                                                autocomplete="off" placeholder="" data-efield="Password" MaxLength="25" required>
+                                            <div class="error"></div>
+                                        </div>
+                                        <label for="password" class="col-sm-3 col-md-3 col-xl-3 col-lg-3 col-form-label text-right">
+                                            <em class="required-field">*</em> Confirm Password
+                                            <span class="pl-2">:</span>
+                                        </label>
+                                        <div class="col-sm-3 col-md-3 col-xl-3 col-lg-3 p-0">
+                                            <input class="form-control" type="password" value="" name="cpassword" id="cpassword" #cpassword="ngModel" [(ngModel)]="assoc.cpassword"
+                                                autocomplete="off" placeholder="" data-efield="Confirm Password" MaxLength="25"
+                                                required>
+                                            <div class="error"></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,8 @@ export class AppAccountReceiveCRUDComponent implements OnInit, OnChanges {
     CRUD = APP_CONSTANTS.CRUD;
     payTerm_ = '';
     invoiceTerm = 'weekly';
+    showAlert = false;
+    alert = null;
     constructor(private appService: AppService,
          private appUserAuthService: AppUserAuthService,
         private router: Router,
@@ -83,7 +85,7 @@ getInvoiceById = (id) => {
 getInvoiceObject = () => {
     return { type: 'Regular', invoiceDate: '', associativeName: '', cname: '', rate: undefined,
     assignmentID: '', associateID: '', comments: '', toDate: '', fromDate: '',
-    dueDate: '', qbinvNumber: undefined, deductions: undefined, amount: undefined, noOfUnits: '', unit: '',
+    dueDate: '', qbinvNumber: undefined, deductions: '0.0', amount: undefined, noOfUnits: '', unit: '',
     paymentMethod: '', recivedDate: '', receivedAmount: undefined, paymentRef: ''
     };
 }
@@ -161,7 +163,7 @@ selectAssociativeId = (associate) => {
 }
 onInvoiceDateChange = (invoiceDate) => {
     const paymetTerm = this.payTerm_;
-    if ( this.invoice['invoiceDate'] ) { 
+    if ( this.invoice['invoiceDate'] ) {
     let startDate =  new Date(this.invoice['invoiceDate']);
     let fromDate = new Date(this.invoice['invoiceDate']);
     let toDate = new Date(this.invoice['invoiceDate']);
@@ -232,18 +234,25 @@ getReceivePaymentById = (id) => {
             const invoice =  resp['response'];
             this.invoice = this.getInvoiceObject();
             this.invoice = { ...this.invoice, ...invoice};
-            this.invoice['receivedDate'] = this.invoice['receivedDate'] ? this.invoice['receivedDate'] : this.todayDate; 
+            this.invoice['receivedDate'] = this.invoice['receivedDate'] ? this.invoice['receivedDate'] : this.todayDate;
             let amount = this.invoice['amount'];
+            const deductions = this.invoice['deductions'];
             this.invoice['orginalAmount'] = (amount = amount ? parseFloat(amount).toFixed(2) : amount);
-            this.invoice['amount'] = amount;
+            this.invoice['amount'] = amount - deductions;
         }
      }).catch((ex) => {
         console.log('Exception caught For fetching due to invoice id', ex);
     });
 }
 
+closeModel = () => {
+    this.showAlert = false;
+}
+
 invoiceRepaySubmit = ( e: NgForm) => {
-    console.log(e.value);
+    // console.log(e.value);
+    this.showAlert = false;
+    this.alert = null;
     if ( e.valid ) {
         const data = _.cloneDeep(this.invoice);
         e.control.markAsPristine();
@@ -252,10 +261,15 @@ invoiceRepaySubmit = ( e: NgForm) => {
             // console.log(resp);
             if ( resp && resp['success']) {
                 toastr.success( resp['response'], null, {positionClass: 'toast-bottom-right'});
+                this.router.navigate(['/layout/actreciv']);
             } else {
-                toastr.error( resp['response'], null, {positionClass: 'toast-bottom-right'});
+                if ( !resp['percentage'] ) {
+                    this.showAlert = true;
+                    this.alert = {title: 'Error', msg: resp['response']};
+                } else {
+                    toastr.error( resp['response'], null, {positionClass: 'toast-bottom-right'});
+                }
             }
-            this.router.navigate(['/layout/actreciv']);
         }).catch(ex => {
             console.log('Exception Caught on Repayment Invoice', ex);
         });

@@ -39,7 +39,7 @@ export class AppAssociativeCRUDComponent implements OnInit, OnChanges {
         const state = this.appRoutingService.getCurrentState();
         if (!utils.isEmpty(state)) {
             this.operationType = state.params && state.params.type || this.operationType;
-            const data = state.params && state.params.data ||null;
+            const data = state.params && state.params.data || null;
             this.state = state;
             if (this.operationType === this.CRUD.EDIT) {
                 this.subTitle = 'Edit Associate';

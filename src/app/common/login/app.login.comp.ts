@@ -7,6 +7,7 @@ import * as v4 from 'uuid';
 import * as moment from 'moment';
 import { AppUserAuthService } from '../../services/app.userAuth.service';
 import { Router, ActivatedRoute} from '@angular/router';
+import { AppRoutingService } from '../../services/app.routing.service';
 declare const staffValidate: any;
 declare const jQuery: any;
 
@@ -28,7 +29,7 @@ export class AppLoginComponent implements OnInit, OnChanges, AfterViewInit, Afte
   dobElementLoaded = false;
 
   constructor(private userAuthSerrvice: AppUserAuthService, private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private appRoutingService: AppRoutingService) {
   }
 
   ngOnInit() {
@@ -91,9 +92,31 @@ export class AppLoginComponent implements OnInit, OnChanges, AfterViewInit, Afte
       this.userAuthSerrvice.checkLogin(this.loginModel).then(resp => {
         // console.log(resp);
         if ( resp['success'] ) {
-          const user = resp['response']['user'];
+          let user = resp['response']['user'];
+          if ( String(user.RoleID) === '3' ) {
+            const {resources } = user;
+            if ( resources && resources.length > 0 ) {
+              const resourceses = [];
+              for ( let i = 0; i < resources.length; i++ ) {
+                  if (resources[i].ResourceName === 'PDTL') {
+                    resourceses.splice(0, 0, resources[i]);
+                  } else {
+                    resourceses.push(resources[i]);
+                  }
+              }
+              user.resources = resourceses;
+            }
+          }
           this.userAuthSerrvice.setUser(user);
-          this.router.navigate( ['/layout/invoice']);
+          
+          this.userAuthSerrvice.updateResources();
+          user = this.userAuthSerrvice.getUser();
+          let path = 'layout/invoice';
+          if (user.resources && user.resources.length > 1) {
+            path = user.resources[1].path;
+          }
+          this.appRoutingService.navigateToURL(path);
+          // this.router.navigate( ['/layout/invoice']);
         } else {
           this.error.isResponseError = true;
           this.error.text = resp['errors']['error'];

@@ -45,12 +45,12 @@ export class AppReportExpensesComponent implements OnInit, OnChanges {
   buildColumns = () => {
     const column1 = this.appGridService.getColumn(0, 'ID', 'ID', this.DATE_TYPES.STRING, true, true, '5%');
     const column2 = this.appGridService.getColumn(1, 'Amount', 'Amount', this.DATE_TYPES.NUMBER, true, true, '7%');
-    const column3 = this.appGridService.getColumn(2, 'Payee', 'Payee', this.DATE_TYPES.STRING, true, true, '8%');
-    const column4 = this.appGridService.getColumn(3, 'Payment Method', 'PaymentMethod', this.DATE_TYPES.STRING, false, true, '13%');
+    const column3 = this.appGridService.getColumn(2, 'Payee', 'Payee', this.DATE_TYPES.STRING, true, true, '12%');
+    const column4 = this.appGridService.getColumn(3, 'Payment Method', 'PaymentMethod', this.DATE_TYPES.STRING, false, true, '15%');
     const column5 = this.appGridService.getColumn(4, 'Expense Header', 'Header', this.DATE_TYPES.STRING, false, true, '10%');
     const column6 = this.appGridService.getColumn(5, 'Reference', 'FullName', this.DATE_TYPES.STRING, true, true, '13%');
-    const column7 = this.appGridService.getColumn(6, 'Description', 'Description', this.DATE_TYPES.STRING, false, false, '13%');
-    const column8 = this.appGridService.getColumn(7, 'Date', 'Date', this.DATE_TYPES.DATE, false, false, '10%');
+    const column7 = this.appGridService.getColumn(6, 'Description', 'Description', this.DATE_TYPES.STRING, false, false, '10%');
+    const column8 = this.appGridService.getColumn(7, 'Date', 'Date', this.DATE_TYPES.DATE, false, true, '8%');
     const column9 = this.appGridService.getColumn(8, 'Action', 'action', this.DATE_TYPES.ACTION_BUTTONS, false, false, '10%');
     column9['buttons'] = this.getDefaultActionButtons();
     const columns = [column1, column2, column3, column4, column5, column6, column7, column8, column9];

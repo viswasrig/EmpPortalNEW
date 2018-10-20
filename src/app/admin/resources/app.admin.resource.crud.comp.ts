@@ -10,13 +10,13 @@ import { NgForm } from '@angular/forms';
 declare const utils: any;
 declare const toastr: any;
 @Component({
-    selector: 'app-adm-comp-crud',
-    templateUrl: './app.adm.roles.crud.comp.html',
-    styleUrls: [ './app.adm.roles.comp.scss']
+    selector: 'app-adm-res-crud',
+    templateUrl: './app.admin.resource.crud.comp.html',
+    styleUrls: [ './app.admin.resource.comp.scss']
 })
-export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
-    title = 'Role and Associate';
-    subTitle = 'Add Role & Associate Relation';
+export class AppRoleResourceCRUDComponent implements OnInit, OnChanges {
+    title = 'Role & Resource';
+    subTitle = 'Add Role & Resource Relation';
     state = null;
     CRUD = APP_CONSTANTS.CRUD;
     RESPONSE_STATUS = APP_CONSTANTS.ALERT_TYPES;
@@ -24,12 +24,12 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
     user = null;
     operationType = APP_CONSTANTS.CRUD.NEW;
     associatesList = [];
-    compensation = null;
     allAvailableRoles = [];
-    allAssociateRolesMap = [];
-    roleMap = null;
+    allAvailableResources = [];
+    allRolesResourcesMap = [];
+    roleResourceMap = null;
     showAlert = false;
-    alert = { title: null, msg: null }; 
+    alert = { title: null, msg: null };
     constructor(
         private appService: AppService,
         private appUserAuthService: AppUserAuthService,
@@ -37,32 +37,33 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
         private appLoaderService: AppLoaderService,
         private appGridService: AppGridService
     ) {
-        this.roleMap = this.getRoleMap();
+        this.roleResourceMap = this.getRoleResourceMap();
     }
     ngOnInit() {
         const state = this.appRoutingService.getCurrentState();
         this.user = this.appUserAuthService.getUser();
         console.log(state);
-        this.getAllAssociateRoleMaps();
         this.getAllAvailableRoles();
-        this.roleMap = this.getRoleMap();
+        this.getAllRoleResopurceMap();
+        this.getAllAvailableResources();
+        this.roleResourceMap = this.getRoleResourceMap();
         if (!utils.isEmpty(state)) {
             this.operationType = state.params && state.params.type || this.operationType;
             const data = state.params && state.params.data || null;
             this.state = state;
             if (this.operationType === this.CRUD.EDIT) {
-                this.subTitle = 'Edit Role & Associate Relation';
-                this.getRoleMapByID(data);
+                this.subTitle = 'Edit Role & Resource Relation';
+                this.getRoleResourceMapByID(data);
             } else if (this.operationType === this.CRUD.NEW) {
-                this.subTitle = 'Add Role & Associate Relation';
+                this.subTitle = 'Add Role & Resource Relation';
             } else if (this.operationType === this.CRUD.VIEW) {
-                this.subTitle = 'View Role & Associate Relation';
-                this.getViewRoleAndAssociateRecord(data);
+                this.subTitle = 'View Role & Resource Relation';
+                this.getViewRoleAndResourceRecord(data);
             } else if (this.operationType === this.CRUD.DELETE) {
                 // Need to develop
             } else {
                 this.operationType = this.CRUD.NEW;
-                this.subTitle = 'Add Role & Associate Relation';
+                this.subTitle = 'Add Role & Resource Relation';
             }
         }
     }
@@ -71,10 +72,11 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
 
     }
 
-    getRoleMap = () => {
+    getRoleResourceMap = () => {
         return {
             ID: '', associateName: '', RoleName: '', RoleID: '',
-             userId: '', associateID: '', RoleDesc: '', RID: ''
+             userId: '', associateID: '', RoleDesc: '', RRID: '',
+             ResourceID: '', ResourceName: '', ResourceDesc: ''
         };
     }
 
@@ -94,41 +96,41 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
     }
 
     selectAssociativeId = (assoc) => {
-        this.roleMap.associateName = assoc.FirstName + ' ' + assoc.LastName;
-        this.roleMap.associateID = assoc.ID;
+        this.roleResourceMap.associateName = assoc.FirstName + ' ' + assoc.LastName;
+        this.roleResourceMap.associateID = assoc.ID;
         this.associatesList = [];
     }
 
-    getAllAssociateRoleMaps = () => {
-        this.appService.getAllAssociatedRoles().then(res => {
+    getAllRoleResopurceMap = () => {
+        this.appService.allResourcesMappedToRole().then(res => {
             if ( res['success'] ) {
-                this.allAssociateRolesMap = res['response'] || [];
+                this.allRolesResourcesMap = res['response'] || [];
             }
         }).catch( (ex) => {
             console.log(ex);
         });
     }
 
-    roleAssociateMapSubmit = (e: NgForm) => {
+    roleResourceMapSubmit = (e: NgForm) => {
         this.showAlert = false;
         this.alert = { title: '', msg: ''};
         if ( e.valid) {
-            const flag = this.isAlreadyAssociated(this.roleMap);
+            const flag = this.isRoleResourceMapped(this.roleResourceMap);
             if ( flag) {
                 this.showAlert = true;
-                this.alert = { title: 'Info', msg: 'Already Role is mapped with ' + this.roleMap.associateName};
+                this.alert = { title: 'Info', msg: 'Already Resource is mapped with ' + this.roleResourceMap.RoleName};
             } else {
-                const data = _.cloneDeep(this.roleMap);
-                this.roleMap = this.getRoleMap();
+                const data = _.cloneDeep(this.roleResourceMap);
+                this.roleResourceMap = this.getRoleResourceMap();
                 data['userId'] = this.user.ID;
-                this.appService.createRoleAssociateMap(data).then((resp) => {
-                    console.log(resp);
+                this.appService.newRoleResourceAdd(data).then((resp) => {
+                    // console.log(resp);
                     if ( resp['success'] ) {
                         toastr.success( resp['response'], null, {positionClass: 'toast-bottom-right'});
                     } else {
                         toastr.error( resp['response'], null, {positionClass: 'toast-bottom-right'});
                     }
-                    this.appRoutingService.navigateToURL( 'layout/adm-as-role' );
+                    this.appRoutingService.navigateToURL( 'layout/adm-role-res' );
                 }).catch((ex) => {
                     console.log('Exception Caught due to Create Assignment', ex);
                 });
@@ -136,10 +138,10 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
         }
     }
 
-    isAlreadyAssociated = (obj) => {
+    isRoleResourceMapped = (obj) => {
         let flag = false;
-        for ( let i = 0; i < this.allAssociateRolesMap.length; i++ ) {
-            if ( this.allAssociateRolesMap[i].AssociateID === obj.associateID ) {
+        for ( let i = 0; i < this.allRolesResourcesMap.length; i++ ) {
+            if ( this.allRolesResourcesMap[i].RoleID === obj.RoleID  && this.allRolesResourcesMap[i].ResourceID === obj.ResourceID) {
                 flag = true;
                 break;
             }
@@ -150,8 +152,9 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
     closeModel = () => {
         this.showAlert = false;
     }
-    roleMapCancel = () => {
-        this.appRoutingService.navigateToURL('layout/adm-as-role');
+
+    resourceMapCancel = () => {
+        this.appRoutingService.navigateToURL('layout/adm-role-res');
     }
 
     getAllAvailableRoles = () => {
@@ -164,31 +167,49 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
         });
     }
 
-    onRoleIDChange = (e) => {
+    getAllAvailableResources = () => {
+        this.appService.getAllResources().then((res) => {
+            if ( res['success'] ) {
+                this.allAvailableResources = res['response'] || [];
+            }
+        }).catch((ex) => {
+            console.log('Fetching All Roles ', ex);
+        });
     }
 
-    newRoleFormSubmit = (e) => {
+    onResourceChange = (e) => {
+    }
+
+    onRoleChange = () => {
+        for ( let i = 0; i < this.allAvailableRoles.length; i++) {
+            if ( this.allAvailableRoles[i].ID ===  this.roleResourceMap.RoleID ) {
+                this.roleResourceMap.RoleName = this.allAvailableRoles[i].RoleName;
+                break;
+            }
+        }
+    }
+    newResourceFormSubmit = (e) => {
         // console.log(e.value);
         if (e.valid) {
-            const data = _.cloneDeep(this.roleMap);
-            this.roleMap = this.getRoleMap();
+            const data = _.cloneDeep(this.roleResourceMap);
+            this.roleResourceMap = this.getRoleResourceMap();
            //  console.log(data);
-            this.appService.addNewRole(data).then((res) => {
+            this.appService.newResourceAdd(data).then((res) => {
                 if (res['success']) {
                     toastr.success(res['response'], null, {positionClass: 'toast-bottom-right'});
-                    const {associateName, associateID, RoleName , RoleDesc} = data;
-                    this.appService.getAllRoles().then((resp) => {
+                    const {RoleID, ResourceName , ResourceDesc} = data;
+                    this.appService.getAllResources().then((resp) => {
                         if ( resp['success'] ) {
-                            let RoleID = '';
+                            let ResourceID = '';
                             const list = resp['response'] || [];
                             for (let i = 0; i < list.length; i++) {
-                                if (list[i].RoleName === RoleName && list[i].RoleDesc === RoleDesc) {
-                                    RoleID = list[i]['ID'];
+                                if (list[i].ResourceName === ResourceName && list[i].ResorceDesc === ResourceDesc) {
+                                    ResourceID = list[i]['ID'] + '';
                                     break;
                                 }
                             }
-                            this.roleMap = {...this.roleMap, associateName, associateID, RoleID};
-                            this.allAvailableRoles = list;
+                            this.roleResourceMap = {...this.roleResourceMap, ResourceName, ResourceID, RoleID};
+                            this.allAvailableResources = list;
                         }
                     }).catch((ex) => {});
                 } else {
@@ -200,43 +221,51 @@ export class AppRoleAssociateCRUDComponent implements OnInit, OnChanges {
         }
     }
 
-    getRoleMapByID = (item) => {
-        const ID = item['RID'] || null;
-        this.appService.getRoleAssociateMapByID(ID).then(res => {
+    getRoleResourceMapByID = (item) => {
+        const ID = item['RRID'] || null;
+        this.appService.getRoleResouceMapByID(ID).then(res => {
             if ( res['success'] ) {
-                this.roleMap = this.getRoleMap();
-                this.roleMap = {...this.roleMap, ...res['response']};
+                this.roleResourceMap = this.getRoleResourceMap();
+                this.roleResourceMap = {...this.roleResourceMap, ...res['response']};
             }
          }).catch((ex) => {
             console.log(ex);
         });
     }
 
-    updateRoleAssociate = (e) => {
+    updateRoleResource = (e) => {
         // console.log(e.value);
+        this.showAlert = false;
+        this.alert = null;
         if ( e.valid ) {
-            const data = _.cloneDeep(this.roleMap);
-            this.roleMap = this.getRoleMap();
+            const flag = this.isRoleResourceMapped(this.roleResourceMap);
+            if ( flag) {
+                this.showAlert = true;
+                this.alert = { title: 'Info', msg: 'Already Resource is mapped with ' + this.roleResourceMap.RoleName};
+            } else {
+            const data = _.cloneDeep(this.roleResourceMap);
+            this.roleResourceMap = this.getRoleResourceMap();
             data['userId'] = this.user.ID;
-            this.appService.updateRoleAssociateMap(data).then((resp) => {
-                console.log(resp);
+            this.appService.updateRoleResouceMap(data).then((resp) => {
+            // console.log(resp);
                 if ( resp['success'] ) {
                     toastr.success( resp['response'], null, {positionClass: 'toast-bottom-right'});
                 } else {
                     toastr.error( resp['response'], null, {positionClass: 'toast-bottom-right'});
                 }
-                this.appRoutingService.navigateToURL( 'layout/adm-as-role' );
+                this.appRoutingService.navigateToURL( 'layout/adm-role-res' );
             }).catch((ex) => {
                 console.log('Exception Caught due to Create Assignment', ex);
             });
         }
+     }
     }
 
-    getViewRoleAndAssociateRecord = (item) => {
-        this.appService.viewRoleAndAssociate(item).then(res => {
+    getViewRoleAndResourceRecord = (item) => {
+        this.appService.viewRoleAndResource(item).then(res => {
             if (res['success']) {
                 const resRole = res['response'][0];
-                this.roleMap = { ...this.roleMap, ...resRole };
+                this.roleResourceMap = { ...this.roleResourceMap, ...resRole };
             }
         }).catch((ex) => {console.log(ex); });
     }

@@ -104,18 +104,30 @@
                   <li class="nav-item" *ngFor="let resource of user.resources;index as i;" id="{{i}}" ngClass="{{resource && resource.ResourceName === selectedNavigation?'active':''}}">
                     <a class="nav-link  dropdown-toggle shadow rounded-0" href="javascript:void(0)" 
                     (click) ="onNavigationSelect(resource);" 
-                    data-toggle="collapse" aria-expanded="false">
+                    data-toggle="collapse" aria-expanded="false" *ngIf="resource.subTabs && resource.subTabs.length > 0 ">
                     <div class="py-2">
                         <i class="" ngClass="{{resource.icon}}"></i> 
                         <span class="px-3">{{RESOURCES[resource.ResourceName]}}</span>
                     </div>
-                      <!--<span class="float-right pr-1"><i class="fa fa-caret-left" aria-hidden="true"></i></span> -->
-                    </a>
                     <ul class="collapse list-unstyled main-nav" ngClass="{{resource && resource.enabled ? 'show' : ''}}">
                         <li class="nav-item" *ngFor="let tab of resource.subTabs" (click)="onSubTabSelected(resource,tab)">
                             <a class="nav-link px-3" href="javascript:void(0)" routerLink="{{tab.path}}" ngClass="{{tab.isSelected?'active':''}}">{{tab.title}}</a>
-                         </li> 
+                        </li> 
                     </ul>
+                    </a>
+                    <a class="nav-link  dropdown-toggle shadow rounded-0" href="javascript:void(0)" 
+                    (click) ="onNavigationSelect(resource);" 
+                    data-toggle="collapse" aria-expanded="false" ngClass="{{selectedNavigation === resource.ResourceName ? 'active' : ''}}" routerLink="{{resource.path}}" *ngIf="resource.subTabs && resource.subTabs.length == 0 ">
+                    <div class="py-2">
+                        <i class="" ngClass="{{resource.icon}}"></i> 
+                        <span class="px-3">{{RESOURCES[resource.ResourceName]}}</span>
+                    </div>
+                    <!-- <ul class="collapse list-unstyled main-nav" ngClass="{{resource && resource.enabled ? 'show' : ''}}">
+                        <li class="nav-item" *ngFor="let tab of resource.subTabs" (click)="onSubTabSelected(resource,tab)">
+                            <a class="nav-link px-3" href="javascript:void(0)" routerLink="{{tab.path}}" ngClass="{{tab.isSelected?'active':''}}">{{tab.title}}</a>
+                        </li> 
+                    </ul> -->
+                    </a>
                   </li>
                 </ng-template>
                  

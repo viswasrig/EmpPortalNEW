@@ -1,20 +1,20 @@
 import { Component, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Router, ActivatedRoute} from '@angular/router';
-import { AppService } from '../../services/app.service';
-import { AppUserAuthService } from '../../services/app.userAuth.service';
-import { AppRoutingService } from '../../services/app.routing.service';
-import { APP_CONSTANTS } from '../../services/app.constants';
-import { AppGridService } from '../../services/app.grid.service';
+import { AppService } from '../services/app.service';
+import { AppUserAuthService } from '../services/app.userAuth.service';
+import { AppRoutingService } from '../services/app.routing.service';
+import { APP_CONSTANTS } from '../services/app.constants';
+import { AppGridService } from '../services/app.grid.service';
 import * as _ from 'lodash';
 declare const toastr: any;
 declare const utils: any;
 
 @Component({
-  selector: 'app-repo-assoc',
-  templateUrl: './app.repo.assoc.details.comp.html',
-  styleUrls: ['./app.repo-assoc.comp.scss']
+  selector: 'app-asso-stmt-details',
+  templateUrl: './app.assoc.stmt.crud.comp.html',
+  styleUrls: ['./app.assoc.comp.scss']
 })
-export class AppReportAssociateDetailsComponent implements OnInit, OnChanges {
+export class AppAssociateStatementDetailsComponent implements OnInit, OnChanges {
     title = 'Associate Details';
     private user = null;
     loader = false;
